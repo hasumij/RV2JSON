@@ -1,12 +1,18 @@
 require_relative 'equipItem'
 
 class RPG::Armor < RPG::EquipItem
-  def initialize
-    super
-    @atype_id = 0
-    @etype_id = 1
-    @features.push(RPG::BaseItem::Feature.new(22, 1, 0))
-  end
+	def initialize
+		super
+		@atype_id = 0
+		@etype_id = 1
+		@features.push(RPG::BaseItem::Feature.new(22, 1, 0))
+	end
+
+	def initialize(json)
+		super(json)
+		@atype_id = json["atypeId"]
+		@etype_id = json["etypeId"]
+	end
 
 	def getDiff(obj)
 		diffs = super
@@ -14,10 +20,10 @@ class RPG::Armor < RPG::EquipItem
 		return diffs
 	end
 
-  def performance
-    params[3] + params[5] + params.inject(0) {|r, v| r += v }
-  end
-  
+	def performance
+		params[3] + params[5] + params.inject(0) {|r, v| r += v }
+	end
+
 	def to_s
 		s = "Armor: #{padVariable(@id, 3)}\n"
 		s << super
@@ -40,5 +46,5 @@ class RPG::Armor < RPG::EquipItem
 		}.to_json(*a)
 	end
 
-  attr_accessor :atype_id
+	attr_accessor :atype_id
 end

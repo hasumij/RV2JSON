@@ -8,6 +8,17 @@ class RPG::EquipItem < RPG::BaseItem
 		@params = [0] * 8
 	end
 
+	def initialize(json)
+		super(json)
+		@price = json["price"]
+		@etype_id = json["etypeId"]
+		@params = json["params"]
+	end
+
+	def etypeId
+		@etype_id
+	end
+
 	def getDiff(obj)
 		diffs = super
 		diffs << "Damage Price changed" if @price != obj.price

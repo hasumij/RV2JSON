@@ -14,6 +14,20 @@ class RPG::Actor < RPG::BaseItem
 		@equips = [0,0,0,0,0]
 	end
 
+	def initialize(json)
+		super(json)
+		@character_index = json["characterIndex"]
+		@character_name = json["characterName"]
+		@class_id = json["classId"]
+		@equips = json["equips"]
+		@face_index = json["faceIndex"]
+		@face_name = json["faceName"]
+		@initial_level = json["initialLevel"]
+		@max_level = json["maxLevel"]
+		@nickname = json["nickname"]
+		@description = json["profile"]
+	end
+
 	def getDiff(obj)
 		diffs = super
 		diffs << "Nickname changed" if @nickname != obj.nickname
@@ -51,7 +65,6 @@ class RPG::Actor < RPG::BaseItem
 	def to_json(*a)
 		return {
 			"id" => @id,
-			"battlerName" => @battler_name,
 			"characterIndex" => @character_index,
 			"characterName" => @character_name,
 			"classId" => @class_id,

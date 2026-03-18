@@ -9,6 +9,12 @@ class RPG::Weapon < RPG::EquipItem
 		@features.push(RPG::BaseItem::Feature.new(22, 0, 0))
 	end
 
+	def initialize(json)
+		super(json)
+		@wtype_id = json["wtypeId"]
+		@animation_id = json["animationId"]
+	end
+
 	def getDiff(obj)
 		diffs = super
 		diffs << "Weapon Type ID changed" if @wtype_id != obj.wtype_id

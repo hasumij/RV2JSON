@@ -2,12 +2,29 @@ require_relative 'utils'
 
 class RPG::BaseItem
 	def initialize
-    @id = 0
-    @name = ''
-    @icon_index = 0
-    @description = ''
-    @features = []
-    @note = ''
+		@id = 0
+		@name = ''
+		@icon_index = 0
+		@description = ''
+		@features = []
+		@note = ''
+	end
+
+	def initialize(json)
+		@id = json["id"]
+		@name = json["name"]
+		@icon_index = json["iconIndex"]
+		@description = json["description"]
+		@features = json["traits"].map { |t| RPG::BaseItemMV::FeatureMV.new(t) } if json["traits"]
+		@note = json["note"]
+	end
+
+	def iconIndex
+		@icon_index
+	end
+
+	def traits
+		@features
 	end
 
 	def getDiff(obj)
@@ -57,6 +74,17 @@ class RPG::BaseItem::Feature
 		@code = code
 		@data_id = data_id
 		@value = value
+	end
+
+	def initialize(json)
+		super()
+		@code = json["code"]
+		@data_id = json["dataId"]
+		@value = json["value"]
+	end
+
+	def dataId
+		@data_id
 	end
 
 	def getDiff(obj, idx)

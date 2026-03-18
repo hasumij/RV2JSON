@@ -1,10 +1,8 @@
-require_relative 'equipItemMV'
+require_relative 'armor'
 
-class RPG::ArmorMV < RPG::EquipItemMV
+class RPG::ArmorMV < RPG::Armor
 	def initialize(json)
 		super(json)
-		@atype_id = json["atypeId"]
-		@etype_id = json["etypeId"]
 	end
 
 	def atypeId
@@ -14,13 +12,4 @@ class RPG::ArmorMV < RPG::EquipItemMV
 	def etypeId
 		@etype_id
 	end
-
-	def to_s
-		s = "Armor: #{padVariable(@id, 3)}\n"
-		s << super
-		s << "Armor Type: #{getArmorType(@atype_id)}\n"
-		return s
-	end
-
-	attr_accessor :atype_id
 end

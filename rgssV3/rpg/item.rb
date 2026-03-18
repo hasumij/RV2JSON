@@ -8,6 +8,14 @@ class RPG::Item < RPG::UsableItem
 		@price = 0
 		@consumable = true
 	end
+
+	def initialize(json)
+		super(json)
+		@itype_id = json["itypeId"]
+		@price = json["price"]
+		@consumable = json["consumable"]
+	end
+
 	def key_item?
 		@itype_id == 2
 	end

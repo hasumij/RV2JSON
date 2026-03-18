@@ -15,6 +15,17 @@ class RPG::Enemy < RPG::BaseItem
 		@features.push(RPG::BaseItem::Feature.new(31, 1, 0))
 	end
 
+	def initialize(json)
+		super(json)
+		@battler_name = json["battlerName"]
+		@battler_hue = json["battlerHue"]
+		@params = json["params"]
+		@exp = json["exp"]
+		@gold = json["gold"]
+		@drop_items = json["dropItems"].map { |i| RPG::EnemyMV::DropItemMV.new(i) if i }
+		@actions = json["actions"].map { |a| RPG::EnemyMV::ActionMV.new(a) if a }
+	end
+
 	def getDiff(obj)
 		diffs = super
 		diffs << "Battler Name changed" if @battler_name != obj.battler_name
@@ -81,6 +92,12 @@ class RPG::Enemy::DropItem
 		@denominator = 1
 	end
 
+	def initialize(json)
+		@kind = json["kind"]
+		@data_id = json["dataId"]
+		@denominator = json["denominator"]
+	end
+
 	def getDiff(obj, idx)
 		diffs = []
 
@@ -130,7 +147,31 @@ class RPG::Enemy::Action
 		@condition_param2 = 0
 		@rating = 5
 	end
-	
+
+	def initialize(json)
+		@skill_id = json["skillId"]
+		@condition_type = json["conditionType"]
+		@condition_param1 = json["conditionParam1"]
+		@condition_param2 = json["conditionParam2"]
+		@rating = json["rating"]
+	end
+
+	def skillId
+		@skill_id
+	end
+
+	def conditionType
+		@condition_type
+	end
+
+	def conditionParam1
+		@condition_param1
+	end
+
+	def conditionParam2
+		@condition_param2
+	end
+
 	def getDiff(obj, idx)
 		diffs = []
 

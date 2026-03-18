@@ -14,7 +14,36 @@ class RPG::UsableItem < RPG::BaseItem
 		@damage = RPG::UsableItem::Damage.new
 		@effects = []
 	end
-	
+
+	def initialize(json)
+		super(json)
+		@scope = json["scope"]
+		@occasion = json["occasion"]
+		@speed = json["speed"]
+		@success_rate = json["successRate"]
+		@repeats = json["repeats"]
+		@tp_gain = json["tpGain"]
+		@hit_type = json["hitType"]
+		@animation_id = json["animationId"]
+		@damage = RPG::UsableItem::Damage.new(json["damage"])
+		@effects = json["effects"].map { |e| RPG::UsableItemMV::EffectMV.new(e) }
+	end
+
+	def successRate
+		@success_rate
+	end
+
+	def tpGain
+		@tp_gain
+	end
+
+	def hitType
+		@hit_type
+	end
+
+	def animationId
+		@animation_id
+	end
 
 	def to_s
 		s = super
@@ -111,6 +140,27 @@ class RPG::UsableItem::Effect
 		@value1 = value1
 		@value2 = value2
 	end
+
+	def initialize(json)
+		super()
+		@code = json["code"]
+		@data_id = json["dataId"]
+		@value1 = json["value1"]
+		@value2 = json["value2"]
+	end
+
+	def dataId
+		@data_id
+	end
+
+	def value1
+		@value1
+	end
+
+	def value2
+		@value2
+	end
+
 	def getDiff(obj, idx)
 		diffs = []
 
@@ -179,6 +229,19 @@ class RPG::UsableItem::Damage
 		@formula = '0'
 		@variance = 20
 		@critical = false
+	end
+
+	def initialize(json)
+		super()
+		@type = json["type"]
+		@element_id = json["elementId"]
+		@formula = json["formula"]
+		@variance = json["variance"]
+		@critical = json["critical"]
+	end
+
+	def elementId
+		@element_id
 	end
 
 	def to_s
