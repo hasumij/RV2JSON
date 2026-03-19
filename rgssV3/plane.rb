@@ -99,4 +99,8 @@ class Plane
     @sprite.method(symbol).call(*args)
   end
 
+  def updateFromJson(json)
+    # Do not update this
+  end
+
 end

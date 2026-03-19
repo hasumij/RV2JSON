@@ -79,4 +79,9 @@ class Viewport
     @z = z
     RGSS.resources.select { |resource| resource.viewport == self }.each { |resource| resource.visible = resource.visible }
   end
+
+  def updateFromJson(json)
+    # Do not update this
+  end
+
 end

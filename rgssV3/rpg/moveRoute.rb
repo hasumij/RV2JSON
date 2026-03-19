@@ -9,16 +9,10 @@ class RPG::MoveRoute
 	end
 
 	def updateFromJson(json)
-		@repeat = json["repeat"]
-		@skippable = json["skippable"]
-		@wait = json["wait"]
-		@list.map!.with_index do | command, idx |
-			if json["list"] && json["list"][idx]
-				command.updateFromJson(json["list"][idx])
-			else
-				command
-			end
-		end
+		updateItemFromJson(@repeat, json["repeat"])
+		updateItemFromJson(@skippable, json["skippable"])
+		updateItemFromJson(@wait, json["wait"])
+		listUpdateFromJson(@list, json["list"])
 	end
 
 	def ==(obj)

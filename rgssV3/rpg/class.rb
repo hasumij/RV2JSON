@@ -32,9 +32,9 @@ class RPG::Class < RPG::BaseItem
 
 	def updateFromJson(json)
 		super(json)
-		@exp_params = json["expParams"]
-		@params = json["params"]
-		@learnings = json["learnings"].map { |l| RPG::Class::Learning.new(l) }
+		updateItemFromJson(@exp_params, json["expParams"])
+		# @params = json["params"]
+		listUpdateFromJson(@learnings, json["learnings"])
 	end
 
 	def exp_for_level(level)
@@ -92,10 +92,15 @@ class RPG::Class::Learning
 	end
 
 	def initialize(json)
-		super()
 		@level = json["level"]
 		@skill_id = json["skillId"]
 		@note = json["note"]
+	end
+
+	def updateFromJson(json)
+		updateItemFromJson(@level, json["level"])
+		updateItemFromJson(@skill_id, json["skillId"])
+		updateItemFromJson(@note, json["note"])
 	end
 
 	def getDiff(obj, idx)

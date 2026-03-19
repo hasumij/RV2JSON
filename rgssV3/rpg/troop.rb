@@ -7,16 +7,10 @@ class RPG::Troop
 	end
 
 	def updateFromJson(json)
-		@id = json["id"]
-		@name = json["name"]
-		@members.map!.with_index do | member, idx |
-			member.updateFromJson(json["members"][idx]) if json["members"] && json["members"][idx]
-			member
-		end
-		@pages.map!.with_index do | page, idx |
-			page.updateFromJson(json["pages"][idx]) if json["pages"] && json["pages"][idx]
-			page
-		end
+		updateItemFromJson(@id, json["id"])
+		updateItemFromJson(@name, json["name"])
+		listUpdateFromJson(@members, json["members"])
+		listUpdateFromJson(@pages, json["pages"])
 	end
 
 	def to_s
@@ -64,10 +58,10 @@ class RPG::Troop::Member
 	end
 
 	def updateFromJson(json)
-		@enemy_id = json["enemyId"]
-		@x = json["x"]
-		@y = json["y"]
-		@hidden = json["hidden"]
+		updateItemFromJson(@enemy_id, json["enemyId"])
+		updateItemFromJson(@x, json["x"])
+		updateItemFromJson(@y, json["y"])
+		updateItemFromJson(@hidden, json["hidden"])
 	end
 
 	def to_s
@@ -117,12 +111,9 @@ class RPG::Troop::Page
 	end
 
 	def updateFromJson(json)
-		@condition.updateFromJson(json["conditions"]) if json["conditions"]
-		@span = json["span"]
-		@list.map!.with_index do | command, idx |
-			command.updateFromJson(json["list"][idx]) if json["list"] && json["list"][idx]
-			command
-		end
+		updateItemFromJson(@condition, json["conditions"])
+		updateItemFromJson(@span, json["span"])
+		listUpdateFromJson(@list, json["list"])
 	end
 
 	def to_s
@@ -178,18 +169,18 @@ class RPG::Troop::Page::Condition
 	end
 
 	def updateFromJson(json)
-		@turn_ending = json["turnEnding"]
-		@turn_valid = json["turnValid"]
-		@enemy_valid = json["enemyValid"]
-		@actor_valid = json["actorValid"]
-		@switch_valid = json["switchValid"]
-		@turn_a = json["turnA"]
-		@turn_b = json["turnB"]
-		@enemy_index = json["enemyIndex"]
-		@enemy_hp = json["enemyHp"]
-		@actor_id = json["actorId"]
-		@actor_hp = json["actorHp"]
-		@switch_id = json["switchId"]
+		updateItemFromJson(@turn_ending, json["turnEnding"])
+		updateItemFromJson(@turn_valid, json["turnValid"])
+		updateItemFromJson(@enemy_valid, json["enemyValid"])
+		updateItemFromJson(@actor_valid, json["actorValid"])
+		updateItemFromJson(@switch_valid, json["switchValid"])
+		updateItemFromJson(@turn_a, json["turnA"])
+		updateItemFromJson(@turn_b, json["turnB"])
+		updateItemFromJson(@enemy_index, json["enemyIndex"])
+		updateItemFromJson(@enemy_hp, json["enemyHp"])
+		updateItemFromJson(@actor_id, json["actorId"])
+		updateItemFromJson(@actor_hp, json["actorHp"])
+		updateItemFromJson(@switch_id, json["switchId"])
 	end
 
 	def to_s

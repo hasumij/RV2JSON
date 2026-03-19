@@ -8,17 +8,11 @@ class RPG::CommonEvent
 	end
 
 	def updateFromJson(json)
-		@id = json["id"]
-		@name = json["name"]
-		@trigger = json["trigger"]
-		@switch_id = json["switchId"]
-		@list.map!.with_index do | cmd, idx |
-			if json["list"] && json["list"][idx]
-				cmd.updateFromJson(json["list"][idx])
-			else
-				cmd
-			end
-		end
+		updateItemFromJson(@id, json["id"])
+		updateItemFromJson(@name, json["name"])
+		updateItemFromJson(@trigger, json["trigger"])
+		updateItemFromJson(@switch_id, json["switchId"])
+		listUpdateFromJson(@list, json["list"])
 	end
 
 	def getDiff(obj)

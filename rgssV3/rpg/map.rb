@@ -29,29 +29,28 @@ class RPG::Map
 	end
 
 	def updateFromJson(json)
-		@display_name = json["displayName"]
-		@tileset_id = json["tilesetId"]
-		@width = json["width"]
-		@height = json["height"]
-		@scroll_type = json["scrollType"]
-		@specify_battleback = json["specifyBattleback"]
-		@battleback_floor_name = json["battleback1Name"]
-		@battleback_wall_name = json["battleback2Name"]
-		@autoplay_bgm = json["autoplayBgm"]
-		@bgm.updateFromJson(json["bgm"])
-		@autoplay_bgs = json["autoplayBgs"]
-		@bgs.updateFromJson(json["bgs"])
-		@disable_dashing = json["disableDashing"]
-		@encounter_list = json["encounterList"].map { |e| RPG::Map::Encounter.new(e) }
-		@encounter_step = json["encounterStep"]
-		@parallax_name = json["parallaxName"]
-		@parallax_loop_x = json["parallaxLoopX"]
-		@parallax_loop_y = json["parallaxLoopY"]
-		@parallax_sx = json["parallaxSx"]
-		@parallax_sy = json["parallaxSy"]
-		@parallax_show = json["parallaxShow"]
-		@note = json["note"]
-		@data = json["data"]
+		updateItemFromJson(@display_name, json["displayName"])
+		updateItemFromJson(@tileset_id, json["tilesetId"])
+		updateItemFromJson(@width, json["width"])
+		updateItemFromJson(@height, json["height"])
+		updateItemFromJson(@scroll_type, json["scrollType"])
+		updateItemFromJson(@specify_battleback, json["specifyBattleback"])
+		updateItemFromJson(@battleback_floor_name, json["battleback1Name"])
+		updateItemFromJson(@battleback_wall_name, json["battleback2Name"])
+		updateItemFromJson(@autoplay_bgm, json["autoplayBgm"])
+		updateItemFromJson(@bgm, json["bgm"])
+		updateItemFromJson(@autoplay_bgs, json["autoplayBgs"])
+		updateItemFromJson(@bgs, json["bgs"])
+		updateItemFromJson(@disable_dashing, json["disableDashing"])
+		updateItemFromJson(@encounter_step, json["encounterStep"])
+		updateItemFromJson(@parallax_name, json["parallaxName"])
+		updateItemFromJson(@parallax_loop_x, json["parallaxLoopX"])
+		updateItemFromJson(@parallax_loop_y, json["parallaxLoopY"])
+		updateItemFromJson(@parallax_sx, json["parallaxSx"])
+		updateItemFromJson(@parallax_sy, json["parallaxSy"])
+		updateItemFromJson(@parallax_show, json["parallaxShow"])
+		updateItemFromJson(@note, json["note"])
+		# @data = json["data"]
 
 		@events.each do |k, v|
 			jsonEvent = json["events"].find { |e| e["id"] == k }
@@ -185,6 +184,12 @@ class RPG::Map::Encounter
 		@troop_id = json["troopId"]
 		@weight = json["weight"]
 		@region_set = json["regionSet"]
+	end
+
+	def updateFromJson(json)
+		updateItemFromJson(@troop_id, json["troopId"])
+		updateItemFromJson(@weight, json["weight"])
+		updateItemFromJson(@region_set, json["regionSet"])
 	end
 
 	def ==(obj)

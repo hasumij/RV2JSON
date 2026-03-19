@@ -62,6 +62,10 @@ class Table
 		}.to_json(*a)
 	end
 
+	def updateFromJson(json)
+		# Do not update this
+	end
+
 	def ==(obj)
 		return false unless @xsize == obj.xsize
 		return false unless @ysize == obj.ysize

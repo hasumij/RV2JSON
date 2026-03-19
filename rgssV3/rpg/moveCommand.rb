@@ -7,8 +7,8 @@ class RPG::MoveCommand
 	end
 
 	def updateFromJson(json)
-		@code = json["code"]
-		@parameters = json["parameters"]
+		updateItemFromJson(@code, json["code"])
+		updateParametersFromJson(@parameters, json["parameters"])
 	end
 
 	def ==(obj)

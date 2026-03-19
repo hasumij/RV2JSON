@@ -118,6 +118,10 @@ class Sprite
     bitmap.height
   end
 
+  def updateFromJson(json)
+    # Do not update this
+  end
+
   def draw(destination=Graphics)
     return unless bitmap and opacity > 0
 

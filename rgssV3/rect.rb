@@ -75,4 +75,8 @@ class Rect
     new(*str.unpack("iiii"))
   end
 
+  def updateFromJson(json)
+    # Do not update this
+  end
+
 end

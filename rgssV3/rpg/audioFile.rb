@@ -6,9 +6,9 @@ class RPG::AudioFile
 	end
 
 	def updateFromJson(json)
-		@name = json["name"]
-		@volume = json["volume"]
-		@pitch = json["pitch"]
+		updateItemFromJson(@name, json["name"])
+		updateItemFromJson(@volume, json["volume"])
+		updateItemFromJson(@pitch, json["pitch"])
 	end
 
 	def ==(obj)

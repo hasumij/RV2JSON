@@ -59,6 +59,10 @@ class Font
     result
   end
 
+  def updateFromJson(json)
+    # Do not update this
+  end
+
   # The font name. Include an array of strings to specify multiple fonts to be used in a desired order.
   #
   #  font.name = ["Myriad", "Verdana"]

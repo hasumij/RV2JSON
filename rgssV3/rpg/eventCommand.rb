@@ -8,9 +8,9 @@ class RPG::EventCommand
 	end
 
 	def updateFromJson(json)
-		@code = json["code"]
-		@indent = json["indent"]
-		@parameters = json["parameters"]
+		updateItemFromJson(@code, json["code"])
+		updateItemFromJson(@indent, json["indent"])
+		updateParametersFromJson(@parameters, json["parameters"])
 	end
 
 	def ==(obj)

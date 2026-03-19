@@ -146,5 +146,10 @@ module Graphics
       #SDL::Screen.set_gamma(5,1,1)
       #seems SDL::Screen.set_gamma and SDL::Screen.set_gamma_rmap doesn't work
     end
+	
+    def updateFromJson(json)
+      # Do not update this
+    end
+
   end
 end

@@ -80,6 +80,10 @@ class Color
     @alpha = [[0, val].max, 255].min
   end
 
+  def updateFromJson(json)
+    # Do not update this
+  end
+
   def ==(other) # :nodoc:
     raise TypeError.new("can't convert #{other.class} into Color") unless self.class == other.class
     return @red == other.red &&

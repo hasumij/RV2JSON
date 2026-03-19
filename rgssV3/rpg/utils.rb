@@ -636,3 +636,37 @@ def parsePartyAbility(a)
 		when 5; "Double Item Acquisition Rate"
 	end
 end
+
+def updateItemFromJson(item, json)
+	return unless json
+
+	if item.respond_to?(:updateFromJson)
+		item.updateFromJson(json)
+	else
+		item = json
+	end
+
+	return item
+end
+
+def listUpdateFromJson(list, json)
+	return unless json
+	list.map!.with_index do | item, idx |
+		item.updateFromJson(json[idx]) if json[idx]
+		item
+	end
+end
+
+def updateParametersFromJson(params, json)
+	params.map!.with_index do | p, idx |
+		# Check if p has a custom updateFromJson method, otherwise just update the value
+		if p.respond_to?(:updateFromJson) && json[idx]
+			p.updateFromJson(json[idx])
+			p
+		elsif json[idx]
+			json[idx]
+		else
+			p
+		end
+	end
+end

@@ -67,7 +67,9 @@ class Tone
     @gray = [[0, value].max, 255].min
   end
 
-
+  def updateFromJson(json)
+    # Do not update this
+  end
 
   def to_s # :nodoc:
     "(#{red}, #{green}, #{blue}, #{gray})"

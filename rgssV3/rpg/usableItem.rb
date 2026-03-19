@@ -31,19 +31,16 @@ class RPG::UsableItem < RPG::BaseItem
 
 	def updateFromJson(json)
 		super(json)
-		@scope = json["scope"]
-		@occasion = json["occasion"]
-		@speed = json["speed"]
-		@success_rate = json["successRate"]
-		@repeats = json["repeats"]
-		@tp_gain = json["tpGain"]
-		@hit_type = json["hitType"]
-		@animation_id = json["animationId"]
-		@damage.updateFromJson(json["damage"])
-		@effects.map!.with_index do | eff, idx |
-			eff.updateFromJson(json["effects"][idx]) if json["effects"] && json["effects"][idx]
-			eff
-		end
+		updateItemFromJson(@scope, json["scope"])
+		updateItemFromJson(@occasion, json["occasion"])
+		updateItemFromJson(@speed, json["speed"])
+		updateItemFromJson(@success_rate, json["successRate"])
+		updateItemFromJson(@repeats, json["repeats"])
+		updateItemFromJson(@tp_gain, json["tpGain"])
+		updateItemFromJson(@hit_type, json["hitType"])
+		updateItemFromJson(@animation_id, json["animationId"])
+		updateItemFromJson(@damage, json["damage"])
+		listUpdateFromJson(@effects, json["effects"])
 	end
 
 	def successRate
@@ -166,10 +163,10 @@ class RPG::UsableItem::Effect
 	end
 
 	def updateFromJson(json)
-		@code = json["code"]
-		@data_id = json["dataId"]
-		@value1 = json["value1"]
-		@value2 = json["value2"]
+		updateItemFromJson(@code, json["code"])
+		updateItemFromJson(@data_id, json["dataId"])
+		updateItemFromJson(@value1, json["value1"])
+		updateItemFromJson(@value2, json["value2"])
 	end
 
 	def dataId
@@ -263,11 +260,11 @@ class RPG::UsableItem::Damage
 	end
 
 	def updateFromJson(json)
-		@type = json["type"]
-		@element_id = json["elementId"]
-		@formula = json["formula"]
-		@variance = json["variance"]
-		@critical = json["critical"]
+		updateItemFromJson(@type, json["type"])
+		updateItemFromJson(@element_id, json["elementId"])
+		updateItemFromJson(@formula, json["formula"])
+		updateItemFromJson(@variance, json["variance"])
+		updateItemFromJson(@critical, json["critical"])
 	end
 
 	def elementId

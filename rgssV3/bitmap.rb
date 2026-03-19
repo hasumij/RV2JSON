@@ -213,4 +213,9 @@ class Bitmap
   def text_size(str)
     Rect.new 0, 0, *@font.entity.text_size(str)
   end
+
+  def updateFromJson(json)
+    # Do not update this
+  end
+
 end

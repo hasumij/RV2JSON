@@ -44,50 +44,44 @@ class RPG::System
 	end
 
 	def updateFromJson(json)
-		@game_title = json["gameTitle"]
-		@version_id = json["versionId"]
-		@party_members = json["partyMembers"]
-		@currency_unit = json["currencyUnit"]
-		@elements = json["elements"]
-		@skill_types = json["skillTypes"]
-		@weapon_types = json["weaponTypes"]
-		@armor_types = json["armorTypes"]
-		@switches = json["switches"]
-		@variables = json["variables"]
-		@boat.updateFromJson(json["boat"])
-		@ship.updateFromJson(json["ship"])
-		@airship.updateFromJson(json["airship"])
-		@title1_name = json["title1Name"]
-		@title2_name = json["title2Name"]
-		@opt_draw_title = json["optDrawTitle"]
-		@opt_use_midi = json["optUseMidi"]
-		@opt_transparent = json["optTransparent"]
-		@opt_followers = json["optFollowers"]
-		@opt_slip_death = json["optSlipDeath"]
-		@opt_floor_death = json["optFloorDeath"]
-		@opt_display_tp = json["optDisplayTp"]
-		@opt_extra_exp = json["optExtraExp"]
+		updateItemFromJson(@game_title, json["gameTitle"])
+		updateItemFromJson(@version_id, json["versionId"])
+		updateItemFromJson(@party_members, json["partyMembers"])
+		updateItemFromJson(@currency_unit, json["currencyUnit"])
+		updateItemFromJson(@elements, json["elements"])
+		updateItemFromJson(@skill_types, json["skillTypes"])
+		updateItemFromJson(@weapon_types, json["weaponTypes"])
+		updateItemFromJson(@armor_types, json["armorTypes"])
+		updateItemFromJson(@switches, json["switches"])
+		updateItemFromJson(@variables, json["variables"])
+		updateItemFromJson(@boat, json["boat"])
+		updateItemFromJson(@ship, json["ship"])
+		updateItemFromJson(@airship, json["airship"])
+		updateItemFromJson(@title1_name, json["title1Name"])
+		updateItemFromJson(@title2_name, json["title2Name"])
+		updateItemFromJson(@opt_draw_title, json["optDrawTitle"])
+		updateItemFromJson(@opt_use_midi, json["optUseMidi"])
+		updateItemFromJson(@opt_transparent, json["optTransparent"])
+		updateItemFromJson(@opt_followers, json["optFollowers"])
+		updateItemFromJson(@opt_slip_death, json["optSlipDeath"])
+		updateItemFromJson(@opt_floor_death, json["optFloorDeath"])
+		updateItemFromJson(@opt_display_tp, json["optDisplayTp"])
+		updateItemFromJson(@opt_extra_exp, json["optExtraExp"])
+
 		# @window_tone = json["windowTone"]
-		@title_bgm.updateFromJson(json["titleBgm"])
-		@battle_bgm.updateFromJson(json["battleBgm"])
-		@battle_end_me.updateFromJson(json["victoryMe"])
-		@gameover_me.updateFromJson(json["gameoverMe"])
-		@sounds.map!.with_index do |s, idx|
-			s.updateFromJson(json["sounds"][idx]) if json["sounds"] && json["sounds"][idx]
-			s
-		end
+		updateItemFromJson(@title_bgm, json["titleBgm"])
+		updateItemFromJson(@battle_bgm, json["battleBgm"])
+		updateItemFromJson(@battle_end_me, json["victoryMe"])
+		updateItemFromJson(@gameover_me, json["gameoverMe"])
+		listUpdateFromJson(@sounds, json["sounds"])
+		listUpdateFromJson(@test_battlers, json["testBattlers"])
 
-		@test_battlers.map!.with_index do |t, idx|
-			t.updateFromJson(json["testBattlers"][idx]) if json["testBattlers"] && json["testBattlers"][idx]
-			t
-		end
-
-		@terms.updateFromJson(json["terms"])
-		@battleback1_name = json["battleback1Name"]
-		@battleback2_name = json["battleback2Name"]
-		@battler_name = json["battlerName"]
-		@battler_hue = json["battlerHue"]
-		@edit_map_id = json["editMapId"]
+		updateItemFromJson(@terms, json["terms"])
+		updateItemFromJson(@battleback1_name, json["battleback1Name"])
+		updateItemFromJson(@battleback2_name, json["battleback2Name"])
+		updateItemFromJson(@battler_name, json["battlerName"])
+		updateItemFromJson(@battler_hue, json["battlerHue"])
+		updateItemFromJson(@edit_map_id, json["editMapId"])
 	end
 
 	def to_s
@@ -274,12 +268,12 @@ class RPG::System::Vehicle
 	end
 
 	def updateFromJson(json)
-		@character_name = json["characterName"]
-		@character_index = json["characterIndex"]
-		@bgm.updateFromJson(json["bgm"])
-		@start_map_id = json["startMapId"]
-		@start_x = json["startX"]
-		@start_y = json["startY"]
+		updateItemFromJson(@character_name, json["characterName"])
+		updateItemFromJson(@character_index, json["characterIndex"])
+		updateItemFromJson(@bgm, json["bgm"])
+		updateItemFromJson(@start_map_id, json["startMapId"])
+		updateItemFromJson(@start_x, json["startX"])
+		updateItemFromJson(@start_y, json["startY"])
 	end
 
 	def to_s
@@ -319,10 +313,10 @@ class RPG::System::Terms
 	end
 
 	def updateFromJson(json)
-		@basic = json["basic"]
-		@params = json["params"]
-		@etypes = json["etypes"]
-		@commands = json["commands"]
+		updateItemFromJson(@basic, json["basic"])
+		updateItemFromJson(@params, json["params"])
+		updateItemFromJson(@etypes, json["etypes"])
+		updateItemFromJson(@commands, json["commands"])
 	end
 
 	def to_s
@@ -403,9 +397,9 @@ class RPG::System::TestBattler
 	end
 
 	def updateFromJson(json)
-		@actor_id = json["actorId"]
-		@level = json["level"]
-		@equips = json["equips"]
+		updateItemFromJson(@actor_id, json["actorId"])
+		updateItemFromJson(@level, json["level"])
+		updateItemFromJson(@equips, json["equips"])
 	end
 
 	def to_s

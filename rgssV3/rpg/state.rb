@@ -41,21 +41,21 @@ class RPG::State < RPG::BaseItem
 
 	def updateFromJson(json)
 		super(json)
-		@restriction = json["restriction"]
-		@priority = json["priority"]
-		@remove_at_battle_end = json["removeAtBattleEnd"]
-		@remove_by_restriction = json["removeByRestriction"]
-		@auto_removal_timing = json["autoRemovalTiming"]
-		@min_turns = json["minTurns"]
-		@max_turns = json["maxTurns"]
-		@remove_by_damage = json["removeByDamage"]
-		@chance_by_damage = json["chanceByDamage"]
-		@remove_by_walking = json["removeByWalking"]
-		@steps_to_remove = json["stepsToRemove"]
-		@message1 = json["message1"]
-		@message2 = json["message2"]
-		@message3 = json["message3"]
-		@message4 = json["message4"]
+		updateItemFromJson(@restriction, json["restriction"])
+		updateItemFromJson(@priority, json["priority"])
+		updateItemFromJson(@remove_at_battle_end, json["removeAtBattleEnd"])
+		updateItemFromJson(@remove_by_restriction, json["removeByRestriction"])
+		updateItemFromJson(@auto_removal_timing, json["autoRemovalTiming"])
+		updateItemFromJson(@min_turns, json["minTurns"])
+		updateItemFromJson(@max_turns, json["maxTurns"])
+		updateItemFromJson(@remove_by_damage, json["removeByDamage"])
+		updateItemFromJson(@chance_by_damage, json["chanceByDamage"])
+		updateItemFromJson(@remove_by_walking, json["removeByWalking"])
+		updateItemFromJson(@steps_to_remove, json["stepsToRemove"])
+		updateItemFromJson(@message1, json["message1"])
+		updateItemFromJson(@message2, json["message2"])
+		updateItemFromJson(@message3, json["message3"])
+		updateItemFromJson(@message4, json["message4"])
 	end
 
 	def to_s
