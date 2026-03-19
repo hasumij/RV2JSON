@@ -22,8 +22,15 @@ class RPG::Class < RPG::BaseItem
 		@features.push(RPG::BaseItem::Feature.new(51, 1))
 		@features.push(RPG::BaseItem::Feature.new(52, 1))
 	end
-	
+
 	def initialize(json)
+		super(json)
+		@exp_params = json["expParams"]
+		@params = json["params"]
+		@learnings = json["learnings"].map { |l| RPG::Class::Learning.new(l) }
+	end
+
+	def updateFromJson(json)
 		super(json)
 		@exp_params = json["expParams"]
 		@params = json["params"]

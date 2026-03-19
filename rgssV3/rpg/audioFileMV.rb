@@ -2,9 +2,9 @@ class RPG::AudioFileMV < RPG::AudioFile
 	def initialize(json)
 		super()
 		@name = json["name"]
-		@pan = json["pan"]
 		@pitch = json["pitch"]
 		@volume = json["volume"]
+		@pan = json["pan"]
 	end
 
 	def to_s

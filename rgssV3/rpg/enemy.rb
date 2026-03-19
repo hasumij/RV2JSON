@@ -15,6 +15,25 @@ class RPG::Enemy < RPG::BaseItem
 		@features.push(RPG::BaseItem::Feature.new(31, 1, 0))
 	end
 
+	def updateFromJson(json)
+		super(json)
+		@battler_name = json["battlerName"]
+		@battler_hue = json["battlerHue"]
+		@params.map!.with_index { |p, idx| json["params"] && json["params"][idx] ? json["params"][idx] : p }
+		@exp = json["exp"]
+		@gold = json["gold"]
+
+		@drop_items.map!.with_index do |i, idx|
+			i.updateFromJson(json["dropItems"][idx]) if json["dropItems"] && json["dropItems"][idx]
+			i
+		end
+		@actions.map!.with_index do |a, idx|
+			a.updateFromJson(json["actions"][idx]) if json["actions"] && json["actions"][idx]
+			a
+		end
+	end
+
+
 	def initialize(json)
 		super(json)
 		@battler_name = json["battlerName"]
@@ -22,8 +41,8 @@ class RPG::Enemy < RPG::BaseItem
 		@params = json["params"]
 		@exp = json["exp"]
 		@gold = json["gold"]
-		@drop_items = json["dropItems"].map { |i| RPG::EnemyMV::DropItemMV.new(i) if i }
-		@actions = json["actions"].map { |a| RPG::EnemyMV::ActionMV.new(a) if a }
+		@drop_items = json["dropItems"].map { |i| RPG::Enemy::DropItem.new(i) if i }
+		@actions = json["actions"].map { |a| RPG::Enemy::Action.new(a) if a }
 	end
 
 	def getDiff(obj)
@@ -92,7 +111,7 @@ class RPG::Enemy::DropItem
 		@denominator = 1
 	end
 
-	def initialize(json)
+	def updateFromJson(json)
 		@kind = json["kind"]
 		@data_id = json["dataId"]
 		@denominator = json["denominator"]
@@ -149,6 +168,14 @@ class RPG::Enemy::Action
 	end
 
 	def initialize(json)
+		@skill_id = json["skillId"]
+		@condition_type = json["conditionType"]
+		@condition_param1 = json["conditionParam1"]
+		@condition_param2 = json["conditionParam2"]
+		@rating = json["rating"]
+	end
+
+	def updateFromJson(json)
 		@skill_id = json["skillId"]
 		@condition_type = json["conditionType"]
 		@condition_param1 = json["conditionParam1"]

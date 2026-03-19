@@ -6,6 +6,19 @@ class RPG::Troop
 		@pages = [RPG::Troop::Page.new]
 	end
 
+	def updateFromJson(json)
+		@id = json["id"]
+		@name = json["name"]
+		@members.map!.with_index do | member, idx |
+			member.updateFromJson(json["members"][idx]) if json["members"] && json["members"][idx]
+			member
+		end
+		@pages.map!.with_index do | page, idx |
+			page.updateFromJson(json["pages"][idx]) if json["pages"] && json["pages"][idx]
+			page
+		end
+	end
+
 	def to_s
 		s = "Troop: #{padVariable(@id, 3)}\n"
 		s << "Name: #{@name}\n"
@@ -48,6 +61,13 @@ class RPG::Troop::Member
 		@x = 0
 		@y = 0
 		@hidden = false
+	end
+
+	def updateFromJson(json)
+		@enemy_id = json["enemyId"]
+		@x = json["x"]
+		@y = json["y"]
+		@hidden = json["hidden"]
 	end
 
 	def to_s
@@ -94,6 +114,15 @@ class RPG::Troop::Page
 		@condition = RPG::Troop::Page::Condition.new
 		@span = 0
 		@list = [RPG::EventCommand.new]
+	end
+
+	def updateFromJson(json)
+		@condition.updateFromJson(json["conditions"]) if json["conditions"]
+		@span = json["span"]
+		@list.map!.with_index do | command, idx |
+			command.updateFromJson(json["list"][idx]) if json["list"] && json["list"][idx]
+			command
+		end
 	end
 
 	def to_s
@@ -146,6 +175,21 @@ class RPG::Troop::Page::Condition
 		@actor_id = 1
 		@actor_hp = 50
 		@switch_id = 1
+	end
+
+	def updateFromJson(json)
+		@turn_ending = json["turnEnding"]
+		@turn_valid = json["turnValid"]
+		@enemy_valid = json["enemyValid"]
+		@actor_valid = json["actorValid"]
+		@switch_valid = json["switchValid"]
+		@turn_a = json["turnA"]
+		@turn_b = json["turnB"]
+		@enemy_index = json["enemyIndex"]
+		@enemy_hp = json["enemyHp"]
+		@actor_id = json["actorId"]
+		@actor_hp = json["actorHp"]
+		@switch_id = json["switchId"]
 	end
 
 	def to_s

@@ -7,6 +7,12 @@ class RPG::EventCommand
 		@parameters = parameters
 	end
 
+	def updateFromJson(json)
+		@code = json["code"]
+		@indent = json["indent"]
+		@parameters = json["parameters"]
+	end
+
 	def ==(obj)
 		return false unless obj
 		return false unless @code == obj.code

@@ -24,6 +24,17 @@ class RPG::Skill < RPG::UsableItem
 		@required_wtype_id2 = json["requiredWtypeId2"]
 	end
 
+	def updateFromJson(json)
+		super(json)
+		@stype_id = json["stypeId"]
+		@mp_cost = json["mpCost"]
+		@tp_cost = json["tpCost"]
+		@message1 = json["message1"]
+		@message2 = json["message2"]
+		@required_wtype_id1 = json["requiredWtypeId1"]
+		@required_wtype_id2 = json["requiredWtypeId2"]
+	end
+
 	def getDiff(obj)
 		diffs = super
 		diffs << "Type changed" if @stype_id != obj.stype_id

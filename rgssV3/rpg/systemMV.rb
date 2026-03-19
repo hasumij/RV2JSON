@@ -213,6 +213,21 @@ class RPG::SystemMV < RPG::System
 		s << "\n"
 	end
 
+	def to_json(*a)
+		return super().merge!({
+			"equipTypes" => @equipTypes,
+			"menuCommands" => @menuCommands,
+			"magicSkills" => @magicSkills,
+			"attackMotions" => @attackMotions,
+			"optSideView" => @optSideView,
+			"defeatMe" => @defeatMe,
+			"locale" => @locale,
+			"hasEncryptedImages" => @hasEncryptedImages,
+			"hasEncryptedAudio" => @hasEncryptedAudio,
+			"encryptionKey" => @encryptionKey
+		}.to_json(*a))
+	end
+
 	attr_accessor :equipTypes
 	attr_accessor :menuCommands
 	attr_accessor :magicSkills

@@ -7,6 +7,20 @@ class RPG::Event
 		@pages = [RPG::Event::Page.new]
 	end
 
+	def updateFromJson(json)
+		@id = json["id"]
+		@name = json["name"]
+		@x = json["x"]
+		@y = json["y"]
+		@pages.map!.with_index do | page, idx |
+			if json["pages"] && json["pages"][idx]
+				page.updateFromJson(json["pages"][idx])
+			else
+				page
+			end
+		end
+	end
+
 	def ==(obj)
 		return false unless obj
 		return false unless @id == obj.id
@@ -60,6 +74,44 @@ class RPG::Event::Page
 		@priority_type = 0
 		@trigger = 0
 		@list = [RPG::EventCommand.new]
+	end
+
+	def initialize(json)
+		@condition = RPG::EventMV::Page::Condition.new(json["conditions"])
+		@graphic = RPG::EventMV::Page::Graphic.new(json["image"])
+		@move_type = json["moveType"]
+		@move_speed = json["moveSpeed"]
+		@move_frequency = json["moveFrequency"]
+		@move_route = RPG::MoveRoute.new(json["moveRoute"])
+		@walk_anime = json["walkAnime"]
+		@step_anime = json["stepAnime"]
+		@direction_fix = json["directionFix"]
+		@through = json["through"]
+		@priority_type = json["priorityType"]
+		@trigger = json["trigger"]
+		@list = json["list"].map { |e| RPG::EventCommand.new(e) }
+	end
+
+	def updateFromJson(json)
+		@condition = RPG::EventMV::Page::Condition.new(json["conditions"])
+		@graphic = RPG::EventMV::Page::Graphic.new(json["image"])
+		@move_type = json["moveType"]
+		@move_speed = json["moveSpeed"]
+		@move_frequency = json["moveFrequency"]
+		@move_route.updateFromJson(json["moveRoute"])
+		@walk_anime = json["walkAnime"]
+		@step_anime = json["stepAnime"]
+		@direction_fix = json["directionFix"]
+		@through = json["through"]
+		@priority_type = json["priorityType"]
+		@trigger = json["trigger"]
+		@list.map!.with_index do | cmd, idx |
+			if json["list"] && json["list"][idx]
+				cmd.updateFromJson(json["list"][idx])
+			else
+				cmd
+			end
+		end
 	end
 
 	def ==(obj)
@@ -141,6 +193,14 @@ class RPG::Event::Page::Graphic
 		@pattern = 0
 	end
 
+	def initialize(json)
+		@tile_id = json["tileId"]
+		@character_name = json["characterName"]
+		@character_index = json["characterIndex"]
+		@direction = json["direction"]
+		@pattern = json["pattern"]
+	end
+
 	def ==(obj)
 		return false unless obj
 		return false unless @tile_id == obj.tile_id
@@ -193,6 +253,22 @@ class RPG::Event::Page::Condition
 		@self_switch_ch = "A"
 		@item_id = 1
 		@actor_id = 1
+	end
+
+	def initialize(json)
+		@switch1_valid = json["switch1Valid"]
+		@switch2_valid = json["switch2Valid"]
+		@variable_valid = json["variableValid"]
+		@self_switch_valid = json["selfSwitchValid"]
+		@item_valid = json["itemValid"]
+		@actor_valid = json["actorValid"]
+		@switch1_id = json["switch1Id"]
+		@switch2_id = json["switch2Id"]
+		@variable_id = json["variableId"]
+		@variable_value = json["variableValue"]
+		@self_switch_ch = json["selfSwitchCh"]
+		@item_id = json["itemId"]
+		@actor_id = json["actorId"]
 	end
 
 	def ==(obj)

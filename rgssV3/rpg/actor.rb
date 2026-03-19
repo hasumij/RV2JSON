@@ -28,6 +28,28 @@ class RPG::Actor < RPG::BaseItem
 		@description = json["profile"]
 	end
 
+	def updateFromJson(json)
+		super(json)
+		@character_index = json["characterIndex"]
+		@character_name = json["characterName"]
+		@class_id = json["classId"]
+
+		@equips.map!.with_index do | eq, idx |
+			if json["equips"] && json["equips"][idx]
+				json["equips"][idx]
+			else
+				eq
+			end
+		end
+
+		@face_index = json["faceIndex"]
+		@face_name = json["faceName"]
+		@initial_level = json["initialLevel"]
+		@max_level = json["maxLevel"]
+		@nickname = json["nickname"]
+		@description = json["profile"]
+	end
+
 	def getDiff(obj)
 		diffs = super
 		diffs << "Nickname changed" if @nickname != obj.nickname

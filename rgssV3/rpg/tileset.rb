@@ -11,6 +11,10 @@ class RPG::Tileset
 		@note = ''
 	end
 
+	def updateFromJson(json)
+		# Don't update this for now
+	end
+
 	def to_s
 		s = "Tileset: #{padVariable(@id, 3)}\n"
 		s << "Name: #{@name}\n"

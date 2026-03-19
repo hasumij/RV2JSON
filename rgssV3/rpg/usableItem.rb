@@ -29,6 +29,23 @@ class RPG::UsableItem < RPG::BaseItem
 		@effects = json["effects"].map { |e| RPG::UsableItemMV::EffectMV.new(e) }
 	end
 
+	def updateFromJson(json)
+		super(json)
+		@scope = json["scope"]
+		@occasion = json["occasion"]
+		@speed = json["speed"]
+		@success_rate = json["successRate"]
+		@repeats = json["repeats"]
+		@tp_gain = json["tpGain"]
+		@hit_type = json["hitType"]
+		@animation_id = json["animationId"]
+		@damage.updateFromJson(json["damage"])
+		@effects.map!.with_index do | eff, idx |
+			eff.updateFromJson(json["effects"][idx]) if json["effects"] && json["effects"][idx]
+			eff
+		end
+	end
+
 	def successRate
 		@success_rate
 	end
@@ -142,7 +159,13 @@ class RPG::UsableItem::Effect
 	end
 
 	def initialize(json)
-		super()
+		@code = json["code"]
+		@data_id = json["dataId"]
+		@value1 = json["value1"]
+		@value2 = json["value2"]
+	end
+
+	def updateFromJson(json)
 		@code = json["code"]
 		@data_id = json["dataId"]
 		@value1 = json["value1"]
@@ -232,7 +255,14 @@ class RPG::UsableItem::Damage
 	end
 
 	def initialize(json)
-		super()
+		@type = json["type"]
+		@element_id = json["elementId"]
+		@formula = json["formula"]
+		@variance = json["variance"]
+		@critical = json["critical"]
+	end
+
+	def updateFromJson(json)
 		@type = json["type"]
 		@element_id = json["elementId"]
 		@formula = json["formula"]

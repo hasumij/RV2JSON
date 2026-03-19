@@ -28,6 +28,38 @@ class RPG::Map
 		@events = {}
 	end
 
+	def updateFromJson(json)
+		@display_name = json["displayName"]
+		@tileset_id = json["tilesetId"]
+		@width = json["width"]
+		@height = json["height"]
+		@scroll_type = json["scrollType"]
+		@specify_battleback = json["specifyBattleback"]
+		@battleback_floor_name = json["battleback1Name"]
+		@battleback_wall_name = json["battleback2Name"]
+		@autoplay_bgm = json["autoplayBgm"]
+		@bgm.updateFromJson(json["bgm"])
+		@autoplay_bgs = json["autoplayBgs"]
+		@bgs.updateFromJson(json["bgs"])
+		@disable_dashing = json["disableDashing"]
+		@encounter_list = json["encounterList"].map { |e| RPG::Map::Encounter.new(e) }
+		@encounter_step = json["encounterStep"]
+		@parallax_name = json["parallaxName"]
+		@parallax_loop_x = json["parallaxLoopX"]
+		@parallax_loop_y = json["parallaxLoopY"]
+		@parallax_sx = json["parallaxSx"]
+		@parallax_sy = json["parallaxSy"]
+		@parallax_show = json["parallaxShow"]
+		@note = json["note"]
+		@data = json["data"]
+
+		@events.each do |k, v|
+			jsonEvent = json["events"].find { |e| e["id"] == k }
+			v.updateFromJson(jsonEvent) if jsonEvent
+		end
+	end
+
+
 	def to_s
 		s = ""
 		s << "Display Name: #{@display_name}\n"
@@ -147,6 +179,12 @@ class RPG::Map::Encounter
 		@troop_id = 1
 		@weight = 10
 		@region_set = []
+	end
+
+	def initialize(json)
+		@troop_id = json["troopId"]
+		@weight = json["weight"]
+		@region_set = json["regionSet"]
 	end
 
 	def ==(obj)

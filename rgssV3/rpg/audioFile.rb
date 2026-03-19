@@ -5,6 +5,12 @@ class RPG::AudioFile
 		@pitch = pitch
 	end
 
+	def updateFromJson(json)
+		@name = json["name"]
+		@volume = json["volume"]
+		@pitch = json["pitch"]
+	end
+
 	def ==(obj)
 		return false unless obj
 		return false unless name == obj.name

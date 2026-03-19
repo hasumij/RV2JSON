@@ -6,6 +6,11 @@ class RPG::MoveCommand
 		@parameters = parameters
 	end
 
+	def updateFromJson(json)
+		@code = json["code"]
+		@parameters = json["parameters"]
+	end
+
 	def ==(obj)
 		return false unless obj
 		return false unless @code == obj.code
@@ -70,7 +75,6 @@ class RPG::MoveCommand
 	def to_json(*a)
 		json = {"code" => @code}
 		json.merge!({"parameters" => @parameters}) if @parameters
-		json.merge!({"indent" => @indent}) if @indentValid
 		return json.to_json(*a)
 	end
 

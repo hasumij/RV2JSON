@@ -12,6 +12,10 @@ class RPG::Animation
 		@timings = []
 	end
 
+	def updateFromJson(json)
+		# For now don't do anything here
+	end
+
 	def to_s
 		s = "Animation: #{padVariable(@id, 3)}\n"
 		s << "Name: #{@name}\n"

@@ -43,6 +43,53 @@ class RPG::System
 		@edit_map_id = 1
 	end
 
+	def updateFromJson(json)
+		@game_title = json["gameTitle"]
+		@version_id = json["versionId"]
+		@party_members = json["partyMembers"]
+		@currency_unit = json["currencyUnit"]
+		@elements = json["elements"]
+		@skill_types = json["skillTypes"]
+		@weapon_types = json["weaponTypes"]
+		@armor_types = json["armorTypes"]
+		@switches = json["switches"]
+		@variables = json["variables"]
+		@boat.updateFromJson(json["boat"])
+		@ship.updateFromJson(json["ship"])
+		@airship.updateFromJson(json["airship"])
+		@title1_name = json["title1Name"]
+		@title2_name = json["title2Name"]
+		@opt_draw_title = json["optDrawTitle"]
+		@opt_use_midi = json["optUseMidi"]
+		@opt_transparent = json["optTransparent"]
+		@opt_followers = json["optFollowers"]
+		@opt_slip_death = json["optSlipDeath"]
+		@opt_floor_death = json["optFloorDeath"]
+		@opt_display_tp = json["optDisplayTp"]
+		@opt_extra_exp = json["optExtraExp"]
+		# @window_tone = json["windowTone"]
+		@title_bgm.updateFromJson(json["titleBgm"])
+		@battle_bgm.updateFromJson(json["battleBgm"])
+		@battle_end_me.updateFromJson(json["victoryMe"])
+		@gameover_me.updateFromJson(json["gameoverMe"])
+		@sounds.map!.with_index do |s, idx|
+			s.updateFromJson(json["sounds"][idx]) if json["sounds"] && json["sounds"][idx]
+			s
+		end
+
+		@test_battlers.map!.with_index do |t, idx|
+			t.updateFromJson(json["testBattlers"][idx]) if json["testBattlers"] && json["testBattlers"][idx]
+			t
+		end
+
+		@terms.updateFromJson(json["terms"])
+		@battleback1_name = json["battleback1Name"]
+		@battleback2_name = json["battleback2Name"]
+		@battler_name = json["battlerName"]
+		@battler_hue = json["battlerHue"]
+		@edit_map_id = json["editMapId"]
+	end
+
 	def to_s
 		s = ""
 		s << "Game Title: #{@game_title}\n"
@@ -112,7 +159,6 @@ class RPG::System
 		return {
 			"airship" => @airship,
 			"armorTypes" => @armor_types,
-			"attackMotions" => @attackMotions,
 			"battleBgm" => @battle_bgm,
 			"battleback1Name" => @battleback1_name,
 			"battleback2Name" => @battleback2_name,
@@ -120,21 +166,15 @@ class RPG::System
 			"battlerName" => @battler_name,
 			"boat" => @boat,
 			"currencyUnit" => @currency_unit,
-			"defeatMe" => @defeatMe,
 			"editMapId" => @edit_map_id,
 			"elements" => @elements,
-			"equipTypes" => @equipTypes,
 			"gameTitle" => @game_title,
 			"gameoverMe" => @gameover_me,
-			"locale" => @locale,
-			"magicSkills" => @magicSkills,
-			"menuCommands" => @menuCommands,
 			"optDisplayTp" => @opt_display_tp,
 			"optDrawTitle" => @opt_draw_title,
 			"optExtraExp" => @opt_extra_exp,
 			"optFloorDeath" => @opt_floor_death,
 			"optFollowers" => @opt_followers,
-			"optSideView" => @optSideView,
 			"optSlipDeath" => @opt_slip_death,
 			"optTransparent" => @opt_transparent,
 			"partyMembers" => @party_members,
@@ -155,10 +195,7 @@ class RPG::System
 			"versionId" => @version_id,
 			"victoryMe" => @battle_end_me,
 			"weaponTypes" => @weapon_types,
-			"windowTone" => [@window_tone.red, @window_tone.green, @window_tone.blue, @window_tone.gray],
-		  "hasEncryptedImages" => @hasEncryptedImages,
-		  "hasEncryptedAudio" => @hasEncryptedAudio,
-		  "encryptionKey" => @encryptionKey,
+			"windowTone" => [@window_tone.red, @window_tone.green, @window_tone.blue, @window_tone.gray]
 		}.to_json(*a)
 	end
 
@@ -235,7 +272,16 @@ class RPG::System::Vehicle
 		@start_x = 0
 		@start_y = 0
 	end
-  
+
+	def updateFromJson(json)
+		@character_name = json["characterName"]
+		@character_index = json["characterIndex"]
+		@bgm.updateFromJson(json["bgm"])
+		@start_map_id = json["startMapId"]
+		@start_x = json["startX"]
+		@start_y = json["startY"]
+	end
+
 	def to_s
 		s = ""
 		s << "Character Name: #{@character_name}\n"
@@ -270,6 +316,13 @@ class RPG::System::Terms
 		@params = Array.new(8) {''}
 		@etypes = Array.new(5) {''}
 		@commands = Array.new(23) {''}
+	end
+
+	def updateFromJson(json)
+		@basic = json["basic"]
+		@params = json["params"]
+		@etypes = json["etypes"]
+		@commands = json["commands"]
 	end
 
 	def to_s
@@ -347,6 +400,12 @@ class RPG::System::TestBattler
 		@actor_id = 1
 		@level = 1
 		@equips = [0,0,0,0,0]
+	end
+
+	def updateFromJson(json)
+		@actor_id = json["actorId"]
+		@level = json["level"]
+		@equips = json["equips"]
 	end
 
 	def to_s

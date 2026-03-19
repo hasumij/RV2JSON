@@ -12,6 +12,13 @@ class RPG::MoveCommandMV < RPG::MoveCommand
 		end
 	end
 
+	def to_json(*a)
+		j = super()
+		j["indent"] = @indent if @indentValid
+		j.to_json(*a)
+	end
+
+
 	attr_accessor :indent
 end
 

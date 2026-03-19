@@ -108,13 +108,6 @@ class RPG::MapMV < RPG::Map
 end
 
 class RPG::MapMV::EncounterMV < RPG::Map::Encounter
-	def initialize(json)
-		super()
-		@troop_id = json["troopId"]
-		@weight = json["weight"]
-		@region_set = json["regionSet"]
-	end
-
 	def troopId
 		@troop_id
 	end

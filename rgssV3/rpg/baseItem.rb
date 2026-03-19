@@ -15,8 +15,17 @@ class RPG::BaseItem
 		@name = json["name"]
 		@icon_index = json["iconIndex"]
 		@description = json["description"]
-		@features = json["traits"].map { |t| RPG::BaseItemMV::FeatureMV.new(t) } if json["traits"]
+		@features = json["traits"].map { |t| RPG::BaseItem::Feature.new(t) } if json["traits"]
 		@note = json["note"]
+	end
+
+	def updateFromJson(json)
+		@id = json["id"] if json["id"]
+		@name = json["name"] if json["name"]
+		@icon_index = json["iconIndex"] if json["iconIndex"]
+		@description = json["description"] if json["description"]
+		# @features = json["traits"].map { |t| RPG::BaseItem::Feature.new(t) } if json["traits"]
+		@note = json["note"] if json["note"]
 	end
 
 	def iconIndex
