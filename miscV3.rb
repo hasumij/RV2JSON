@@ -404,32 +404,31 @@ def validateRecreation(dataDir, dataFiles)
 	end
 end
 
-
 def initDataFiles(dataDir, check = true)
 	checkDataDirExists(dataDir)
 
 	dataFiles = ["CommonEvents", "System", "MapInfos", "Actors", "Animations", "Armors", "Classes", "Enemies", "Items", "Skills", "States", "Tilesets", "Troops", "Weapons"]
 	dataFiles << Dir.entries(dataDir).grep(/Map\d\d\d/).map{|f| File.basename(f, ".*")}
 	dataFiles.flatten!
-	$OBJECTS = nil
+	$RPG_OBJECTS = nil
 
 	validateRecreation(dataDir, dataFiles) if check
-	$OBJECTS = dataFiles.map{ |df| [df, loadFile("#{dataDir}/#{df}")] }.to_h
+	$RPG_OBJECTS = dataFiles.map{ |df| [df, loadFile("#{dataDir}/#{df}")] }.to_h
 end
 
 def saveDataFiles(dataDir)
 	Dir.mkdir(dataDir) unless Dir.exist?(dataDir)
 	puts "Writing patched data to: \"#{dataDir}\""
-	$OBJECTS.each do |name, obj|
+	$RPG_OBJECTS.each do |name, obj|
 		save_data(obj, "#{dataDir}/#{name}#{$ENGINE_EXT}")
 	end
 end
 
 def execute(func)
 	return unless func
-	return if $OBJECTS.empty?
+	return if $RPG_OBJECTS.empty?
 
-	$OBJECTS.each do |name, obj|
+	$RPG_OBJECTS.each do |name, obj|
 		next if name == "MapInfos"
 
 		if obj.class == Array

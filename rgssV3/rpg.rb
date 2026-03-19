@@ -144,7 +144,7 @@ end
 def save_data(obj, filename, force_json = false)
 	if $ENGINE == :vxace || $ENGINE == :vx
 		if force_json
-			File.open("#{filename}.json", "w:UTF-8") { |f| f.write(JSON.pretty_generate obj) }
+			File.open("#{filename}", "w:UTF-8") { |f| f.write(JSON.pretty_generate obj) }
 		else
 			File.open("#{filename}", "wb") { |f| Marshal.dump(obj, f) }
 		end
