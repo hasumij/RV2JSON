@@ -1,15 +1,15 @@
-$APPLICATION_NAME = "RPGMaker VX Ace JSON Converter"
+$APPLICATION_NAME = "RPGMaker VX Ace JSON Converter - RV2JSON"
 $VERSION = "1.0.0"
 
 require_relative 'rgssV3/rpg'
 require_relative 'miscV3'
 require 'optparse'
+require 'zlib'
 
 # Map containing the default names of the folders
 DEFAULT_FOLDERS = {
 	data: "data",
-	json: "ace_json",
-	test_dir: "test"
+	json: "ace_json"
 }
 
 def saveDataAsJson(fileName, jsonDir, data)
@@ -42,34 +42,177 @@ def updateDataFromJson(fileName, jsonDir, outDir, data)
 	else
 		data.updateFromJson(jsonData)
 	end
+
 	save_data(data, "#{outDir}/#{fileName}.rvdata2")
 end
 
+def decodeScriptCode(c)
+	s = Zlib::Inflate.inflate(c).force_encoding('UTF-8')
+	return s
+end
+
+def encodeScriptCode(c)
+	return Zlib::Deflate.deflate(c)
+end
+
+def writeScriptToFile(c, fileName)
+	File.open(fileName, 'w') { |file| file.write(decodeScriptCode(c)) }
+end
+
+def readScriptFromFile(fileName)
+	return encodeScriptCode(File.read(fileName))
+end
+
+def dumpScripts(scriptFile, outDir)
+	# Create the dump directory in case it does not exist
+	Dir.mkdir(outDir) unless Dir.exist?(outDir)
+
+	# Load the Scripts file
+	temp = load_data(scriptFile)
+
+	if temp == nil
+		puts "ERROR: Could not load scripts from #{scriptFile}"
+		return
+	end
+
+	puts "Start dumping scripts..."
+
+	cnt = 0
+
+	temp.each do | script |
+		idx = script[0]
+		name = script[1]
+		name.gsub!(/(\<|\>|\:|\"|\/|\\|\||\?|\*)/) {''}
+		n = "#{outDir}/#{idx}_#{name}.rb"
+		if not File.exist?(n)
+			writeScriptToFile(script[2], n)
+			cnt += 1
+		end
+	end
+
+	puts "Dumping of #{cnt} scripts done"
+end
+
+def updateScripts(scriptFile, dumpDir, outDir)
+	if not Dir.exist?(dumpDir)
+		puts "WARNING: Unable to update scripts. Directory #{dumpDir} does not exist."
+		return
+	end
+
+	# Load the Scripts file
+	temp = load_data(scriptFile)
+
+	if temp == nil
+		puts "ERROR: Could not load scripts from #{scriptFile}"
+		return
+	end
+
+	puts "Start updating scripts..."
+
+	cnt = 0
+
+	temp.each do | script |
+		idx = script[0]
+		name = script[1]
+		name.gsub!(/(\<|\>|\:|\"|\/|\\|\||\?|\*)/) {''}
+		n = "#{dumpDir}/#{idx}_#{name}.rb"
+		if File.exist?(n)
+			script[2] = readScriptFromFile(n)
+			cnt += 1
+		end
+	end
+
+	save_data(temp, "#{outDir}/Scripts.rvdata2")
+
+	puts "Updating of #{cnt} scripts done"
+end
+
+def dumpFiles(dataDir, outDir)
+	$RPG_OBJECTS.each {|n, o| saveDataAsJson(n, outDir, o) }
+
+	# Dump scripts
+	scriptDumpDir = "#{outDir}/scripts"
+	scriptFile = "#{dataDir}/Scripts.rvdata2"
+	dumpScripts(scriptFile, scriptDumpDir)
+end
+
+def updateFiles(dataDir, jsonDir, outDir)
+	# Update data from JSON and save to test directory
+	$RPG_OBJECTS.each {|n, o| updateDataFromJson(n, jsonDir, outDir, o) }
+
+	# Update scripts from dumped versions and save to test directory
+	scriptDumpDir = "#{jsonDir}/scripts"
+	scriptFile = "#{dataDir}/Scripts.rvdata2"
+	updateScripts(scriptFile, scriptDumpDir, outDir)
+end
 begin
 	opts = OptionParser.new
-	opts.banner = "Usage: ruby main.rb [options]"
-	data_dir = nil
-	out_dir = nil
-	opts.on('-dDIR', '--data-dir DIR', 'Path to data directory (default: data)') { |d| data_dir = d }
-	opts.on('-jDIR', '--json-dir DIR', 'Path to json directory (default: ace_json)') { |d| out_dir = d }
+	banner = <<EOF
+
+██████╗ ██╗   ██╗██████╗      ██╗███████╗ ██████╗ ███╗   ██╗
+██╔══██╗██║   ██║╚════██╗     ██║██╔════╝██╔═══██╗████╗  ██║
+██████╔╝██║   ██║ █████╔╝     ██║███████╗██║   ██║██╔██╗ ██║
+██╔══██╗╚██╗ ██╔╝██╔═══╝ ██   ██║╚════██║██║   ██║██║╚██╗██║
+██║  ██║ ╚████╔╝ ███████╗╚█████╔╝███████║╚██████╔╝██║ ╚████║
+╚═╝  ╚═╝  ╚═══╝  ╚══════╝ ╚════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
+
+EOF
+
+	banner += "Usage: RV2JSON.exe ACTION [dir_options]"
+
+	opts.banner = banner
+	dataDir = nil
+	jsonDir = nil
+	outputDir = nil
+	createFlag = false
+	updateFlag = false
+	opts.separator "Actions:"
+	opts.on('-c', '--create', 'Create JSON dumps (calls dumpFiles)') { createFlag = true }
+	opts.on('-u', '--update', 'Update data from JSON (calls updateFiles)') { updateFlag = true }
+	opts.separator ""
+	opts.separator "Directory options:"
+	opts.on('-dDIR', '--data-dir DIR', 'Path to data directory (default: data)') { |d| dataDir = d }
+	opts.on('-jDIR', '--json-dir DIR', 'Path to the json directory.', 'During create the JSON files will be created here.', 'During update they will be read from here. (default: ace_json)') { |d| jsonDir = d }
+	opts.on('-oDIR', '--out-dir DIR', 'Path to output directory.', 'Used to store the updated rvdata2 files.', 'If not specified, the data directory (-d, --data-dir) will be used.') { |d| outputDir = d }
+	opts.separator ""
+	opts.separator "Other options:"
 	opts.on('-h', '--help', 'Show this help') { puts opts; exit }
 	opts.parse!(ARGV)
 
-	if data_dir.nil?
-		data_dir = DEFAULT_FOLDERS[:data]
-		puts "Using default data directory: #{data_dir}"
+	# Make sure at least one action is requested
+	if !createFlag && !updateFlag
+		puts "ERROR: No action specified. Use -c to create JSON dumps or -u to update from JSON"
+		puts "Use -h for extended help"
+		exit 1
 	end
 
-	if out_dir.nil?
-		out_dir = DEFAULT_FOLDERS[:json]
-		puts "Using default json directory: #{out_dir}"
+	if dataDir.nil?
+		dataDir = DEFAULT_FOLDERS[:data]
+		puts "Using default data directory: #{dataDir}"
 	end
 
-	initDataFiles(data_dir)
+	if jsonDir.nil?
+		jsonDir = DEFAULT_FOLDERS[:json]
+		puts "Using default json directory: #{jsonDir}"
+	end
 
-	$RPG_OBJECTS.each {|n, o| saveDataAsJson(n, out_dir, o) }
-	$RPG_OBJECTS.each {|n, o| updateDataFromJson(n, out_dir, DEFAULT_FOLDERS[:test_dir], o) }
+	if outputDir.nil?
+		outputDir = dataDir
+		puts "Using default output directory (data dir): #{outputDir}"
+	end
 
+	initDataFiles(dataDir)
+
+	# Execute requested actions
+	if createFlag
+		puts "Running create (dumpFiles) -> output: #{outputDir}"
+		dumpFiles(dataDir, jsonDir)
+	end
+
+	if updateFlag
+		puts "Running update (updateFiles) -> json: #{jsonDir}, output: #{outputDir}"
+		updateFiles(dataDir, jsonDir, outputDir)
+	end
 rescue => e
 	puts "ERROR APPLICATION CRASHED WITH:"
 	puts e.inspect
