@@ -477,6 +477,6 @@ initLogging
 
 APPLICATION_NAME = nil unless defined? APPLICATION_NAME
 
-puts "#{APPLICATION_NAME} - #{VERSION}" if APPLICATION_NAME && VERSION
+puts "#{APPLICATION_NAME} - v#{VERSION}" if APPLICATION_NAME && VERSION
 # Support for the old style where I forgot that constants exist ...
-puts "#{$APPLICATION_NAME} - #{$VERSION}" if $APPLICATION_NAME && $VERSION
+puts "#{$APPLICATION_NAME} - v#{$VERSION}" if $APPLICATION_NAME && $VERSION
