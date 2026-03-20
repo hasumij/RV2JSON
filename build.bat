@@ -1,2 +1,2 @@
 @echo off
-ocran main.rb --output RV2JSON.exe --icon rv2json.ico
+ocran RV2JSON.rb --output RV2JSON.exe --icon rv2json.ico
