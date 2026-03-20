@@ -8,7 +8,6 @@ require 'zlib'
 
 # TODOs:
 # - Create backups of the original files before updating
-# - Add an option to not require an enter press at the end of the program (for use in batch scripts)
 
 # Map containing the default names of the folders
 DEFAULT_FOLDERS = {
@@ -88,10 +87,8 @@ def dumpScripts(scriptFile, outDir)
 		name = script[1]
 		name.gsub!(/(\<|\>|\:|\"|\/|\\|\||\?|\*)/) {''}
 		n = "#{outDir}/#{idx}_#{name}.rb"
-		if not File.exist?(n)
-			writeScriptToFile(script[2], n)
-			cnt += 1
-		end
+		writeScriptToFile(script[2], n)
+		cnt += 1
 	end
 
 	puts "Dumping of #{cnt} scripts done"
@@ -221,6 +218,7 @@ rescue => e
 	puts "ERROR APPLICATION CRASHED WITH:"
 	puts e.inspect
 	puts e.backtrace.join("\n")
+	exit 1
 end
 
-exitWithEnter
+# exitWithEnter
