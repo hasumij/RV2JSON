@@ -6,6 +6,10 @@ require_relative 'miscV3'
 require 'optparse'
 require 'zlib'
 
+# TODOs:
+# - Create backups of the original files before updating
+# - Add an option to not require an enter press at the end of the program (for use in batch scripts)
+
 # Map containing the default names of the folders
 DEFAULT_FOLDERS = {
 	data: "data",
