@@ -1,11 +1,11 @@
 class RPG::MapInfo
 	def initialize
-		@name			= ""
+		@name      = ""
 		@parent_id = 0
-		@order		 = 0
-		@expanded	= false
-		@scroll_x	= 0
-		@scroll_y	= 0
+		@order	   = 0
+		@expanded  = false
+		@scroll_x  = 0
+		@scroll_y  = 0
 	end
 
 	def initialize(json)
@@ -19,13 +19,13 @@ class RPG::MapInfo
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@id, json["id"])
-		updateItemFromJson(@name, json["name"])
-		updateItemFromJson(@parent_id, json["parentId"])
-		updateItemFromJson(@order, json["order"])
-		updateItemFromJson(@expanded, json["expanded"])
-		updateItemFromJson(@scroll_x, json["scrollX"])
-		updateItemFromJson(@scroll_y, json["scrollY"])
+		@name = json["name"] if json["name"]
+		@id = json["id"] if json["id"]
+		@parent_id = json["parentId"] if json["parentId"]
+		@order = json["order"] if json["order"]
+		@expanded = json["expanded"] if json["expanded"]
+		@scroll_x = json["scrollX"] if json["scrollX"]
+		@scroll_y = json["scrollY"] if json["scrollY"]
 	end
 
 	def to_json(*a)

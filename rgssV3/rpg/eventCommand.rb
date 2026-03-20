@@ -8,8 +8,8 @@ class RPG::EventCommand
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@code, json["code"])
-		updateItemFromJson(@indent, json["indent"])
+		@code = json["code"] if json["code"]
+		@indent = json["indent"] if json["indent"]
 		updateParametersFromJson(@parameters, json["parameters"])
 	end
 

@@ -7,8 +7,8 @@ class RPG::Troop
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@id, json["id"])
-		updateItemFromJson(@name, json["name"])
+		@id = json["id"] if json["id"]
+		@name = json["name"] if json["name"]
 		listUpdateFromJson(@members, json["members"])
 		listUpdateFromJson(@pages, json["pages"])
 	end
@@ -58,10 +58,10 @@ class RPG::Troop::Member
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@enemy_id, json["enemyId"])
-		updateItemFromJson(@x, json["x"])
-		updateItemFromJson(@y, json["y"])
-		updateItemFromJson(@hidden, json["hidden"])
+		@enemy_id = json["enemyId"] if json["enemyId"]
+		@x = json["x"] if json["x"]
+		@y = json["y"] if json["y"]
+		@hidden = json["hidden"] if json["hidden"]
 	end
 
 	def to_s
@@ -111,8 +111,8 @@ class RPG::Troop::Page
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@condition, json["conditions"])
-		updateItemFromJson(@span, json["span"])
+		@condition.updateFromJson(json["conditions"]) if json["conditions"]
+		@span = json["span"] if json["span"]
 		listUpdateFromJson(@list, json["list"])
 	end
 
@@ -169,18 +169,18 @@ class RPG::Troop::Page::Condition
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@turn_ending, json["turnEnding"])
-		updateItemFromJson(@turn_valid, json["turnValid"])
-		updateItemFromJson(@enemy_valid, json["enemyValid"])
-		updateItemFromJson(@actor_valid, json["actorValid"])
-		updateItemFromJson(@switch_valid, json["switchValid"])
-		updateItemFromJson(@turn_a, json["turnA"])
-		updateItemFromJson(@turn_b, json["turnB"])
-		updateItemFromJson(@enemy_index, json["enemyIndex"])
-		updateItemFromJson(@enemy_hp, json["enemyHp"])
-		updateItemFromJson(@actor_id, json["actorId"])
-		updateItemFromJson(@actor_hp, json["actorHp"])
-		updateItemFromJson(@switch_id, json["switchId"])
+		@turn_ending = json["turnEnding"] if json["turnEnding"]
+		@turn_valid = json["turnValid"] if json["turnValid"]
+		@enemy_valid = json["enemyValid"] if json["enemyValid"]
+		@actor_valid = json["actorValid"] if json["actorValid"]
+		@switch_valid = json["switchValid"] if json["switchValid"]
+		@turn_a = json["turnA"] if json["turnA"]
+		@turn_b = json["turnB"] if json["turnB"]
+		@enemy_index = json["enemyIndex"] if json["enemyIndex"]
+		@enemy_hp = json["enemyHp"] if json["enemyHp"]
+		@actor_id = json["actorId"] if json["actorId"]
+		@actor_hp = json["actorHp"] if json["actorHp"]
+		@switch_id = json["switchId"] if json["switchId"]
 	end
 
 	def to_s

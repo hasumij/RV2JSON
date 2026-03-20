@@ -637,17 +637,17 @@ def parsePartyAbility(a)
 	end
 end
 
-def updateItemFromJson(item, json)
-	return unless json
+# def updateItemFromJson(item, json)
+# 	return unless json
 
-	if item.respond_to?(:updateFromJson)
-		item.updateFromJson(json)
-	else
-		item = json
-	end
+# 	if item.respond_to?(:updateFromJson)
+# 		item.updateFromJson(json)
+# 	else
+# 		item = json
+# 	end
 
-	return item
-end
+# 	return item
+# end
 
 def listUpdateFromJson(list, json)
 	return unless json

@@ -8,10 +8,10 @@ class RPG::CommonEvent
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@id, json["id"])
-		updateItemFromJson(@name, json["name"])
-		updateItemFromJson(@trigger, json["trigger"])
-		updateItemFromJson(@switch_id, json["switchId"])
+		@id = json["id"] if json["id"]
+		@name = json["name"] if json["name"]
+		@trigger = json["trigger"] if json["trigger"]
+		@switch_id = json["switchId"] if json["switchId"]
 		listUpdateFromJson(@list, json["list"])
 	end
 

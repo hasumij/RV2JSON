@@ -9,9 +9,9 @@ class RPG::MoveRoute
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@repeat, json["repeat"])
-		updateItemFromJson(@skippable, json["skippable"])
-		updateItemFromJson(@wait, json["wait"])
+		@repeat = json["repeat"] if json["repeat"]
+		@skippable = json["skippable"] if json["skippable"]
+		@wait = json["wait"] if json["wait"]
 		listUpdateFromJson(@list, json["list"])
 	end
 

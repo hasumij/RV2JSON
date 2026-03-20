@@ -17,8 +17,8 @@ class RPG::EquipItem < RPG::BaseItem
 
 	def updateFromJson(json)
 		super(json)
-		updateItemFromJson(@price, json["price"])
-		updateItemFromJson(@etype_id, json["etypeId"])
+		@price = json["price"] if json["price"]
+		@etype_id = json["etypeId"] if json["etypeId"]
 		
 		# @params = json["params"] if json["params"]
 	end

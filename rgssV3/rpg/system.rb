@@ -44,44 +44,46 @@ class RPG::System
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@game_title, json["gameTitle"])
-		updateItemFromJson(@version_id, json["versionId"])
-		updateItemFromJson(@party_members, json["partyMembers"])
-		updateItemFromJson(@currency_unit, json["currencyUnit"])
-		updateItemFromJson(@elements, json["elements"])
-		updateItemFromJson(@skill_types, json["skillTypes"])
-		updateItemFromJson(@weapon_types, json["weaponTypes"])
-		updateItemFromJson(@armor_types, json["armorTypes"])
-		updateItemFromJson(@switches, json["switches"])
-		updateItemFromJson(@variables, json["variables"])
-		updateItemFromJson(@boat, json["boat"])
-		updateItemFromJson(@ship, json["ship"])
-		updateItemFromJson(@airship, json["airship"])
-		updateItemFromJson(@title1_name, json["title1Name"])
-		updateItemFromJson(@title2_name, json["title2Name"])
-		updateItemFromJson(@opt_draw_title, json["optDrawTitle"])
-		updateItemFromJson(@opt_use_midi, json["optUseMidi"])
-		updateItemFromJson(@opt_transparent, json["optTransparent"])
-		updateItemFromJson(@opt_followers, json["optFollowers"])
-		updateItemFromJson(@opt_slip_death, json["optSlipDeath"])
-		updateItemFromJson(@opt_floor_death, json["optFloorDeath"])
-		updateItemFromJson(@opt_display_tp, json["optDisplayTp"])
-		updateItemFromJson(@opt_extra_exp, json["optExtraExp"])
-
-		# @window_tone = json["windowTone"]
-		updateItemFromJson(@title_bgm, json["titleBgm"])
-		updateItemFromJson(@battle_bgm, json["battleBgm"])
-		updateItemFromJson(@battle_end_me, json["victoryMe"])
-		updateItemFromJson(@gameover_me, json["gameoverMe"])
+		@game_title = json["gameTitle"] if json["gameTitle"]
+		@version_id = json["versionId"] if json["versionId"]
+		@party_members = json["partyMembers"] if json["partyMembers"]
+		@currency_unit = json["currencyUnit"] if json["currencyUnit"]
+		@elements = json["elements"] if json["elements"]
+		@skill_types = json["skillTypes"] if json["skillTypes"]
+		@weapon_types = json["weaponTypes"] if json["weaponTypes"]
+		@armor_types = json["armorTypes"] if json["armorTypes"]
+		@switches = json["switches"] if json["switches"]
+		@variables = json["variables"] if json["variables"]
+		@boat.updateFromJson(json["boat"]) if json["boat"]
+		@ship.updateFromJson(json["ship"]) if json["ship"]
+		@airship.updateFromJson(json["airship"]) if json["airship"]
+		@title1_name = json["title1Name"] if json["title1Name"]
+		@title2_name = json["title2Name"] if json["title2Name"]
+		@opt_draw_title = json["optDrawTitle"] if json["optDrawTitle"]
+		@opt_use_midi = json["optUseMidi"] if json["optUseMidi"]
+		@opt_transparent = json["optTransparent"] if json["optTransparent"]
+		@opt_followers = json["optFollowers"] if json["optFollowers"]
+		@opt_slip_death = json["optSlipDeath"] if json["optSlipDeath"]
+		@opt_floor_death = json["optFloorDeath"] if json["optFloorDeath"]
+		@opt_display_tp = json["optDisplayTp"] if json["optDisplayTp"]
+		@opt_extra_exp = json["optExtraExp"] if json["optExtraExp"]
+		# @window_tone = json["windowTone"] if json["windowTone"]
+		@title_bgm.updateFromJson(json["titleBgm"]) if json["titleBgm"]
+		@battle_bgm.updateFromJson(json["battleBgm"]) if json["battleBgm"]
+		@battle_end_me.updateFromJson(json["victoryMe"]) if json["victoryMe"]
+		@gameover_me.updateFromJson(json["gameoverMe"]) if json["gameoverMe"]
 		listUpdateFromJson(@sounds, json["sounds"])
 		listUpdateFromJson(@test_battlers, json["testBattlers"])
-
-		updateItemFromJson(@terms, json["terms"])
-		updateItemFromJson(@battleback1_name, json["battleback1Name"])
-		updateItemFromJson(@battleback2_name, json["battleback2Name"])
-		updateItemFromJson(@battler_name, json["battlerName"])
-		updateItemFromJson(@battler_hue, json["battlerHue"])
-		updateItemFromJson(@edit_map_id, json["editMapId"])
+		@test_troop_id = json["testTroopId"] if json["testTroopId"]
+		@start_map_id = json["startMapId"] if json["startMapId"]
+		@start_x = json["startX"] if json["startX"]
+		@start_y = json["startY"] if json["startY"]
+		@terms.updateFromJson(json["terms"]) if json["terms"]
+		@battleback1_name = json["battleback1Name"] if json["battleback1Name"]
+		@battleback2_name = json["battleback2Name"] if json["battleback2Name"]
+		@battler_name = json["battlerName"] if json["battlerName"]
+		@battler_hue = json["battlerHue"] if json["battlerHue"]
+		@edit_map_id = json["editMapId"] if json["editMapId"]
 	end
 
 	def to_s
@@ -268,12 +270,12 @@ class RPG::System::Vehicle
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@character_name, json["characterName"])
-		updateItemFromJson(@character_index, json["characterIndex"])
-		updateItemFromJson(@bgm, json["bgm"])
-		updateItemFromJson(@start_map_id, json["startMapId"])
-		updateItemFromJson(@start_x, json["startX"])
-		updateItemFromJson(@start_y, json["startY"])
+		@character_name = json["characterName"] if json["characterName"]
+		@character_index = json["characterIndex"] if json["characterIndex"]
+		@bgm.updateFromJson(json["bgm"]) if json["bgm"]
+		@start_map_id = json["startMapId"] if json["startMapId"]
+		@start_x = json["startX"] if json["startX"]
+		@start_y = json["startY"] if json["startY"]
 	end
 
 	def to_s
@@ -313,10 +315,10 @@ class RPG::System::Terms
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@basic, json["basic"])
-		updateItemFromJson(@params, json["params"])
-		updateItemFromJson(@etypes, json["etypes"])
-		updateItemFromJson(@commands, json["commands"])
+		@basic = json["basic"] if json["basic"]
+		@params = json["params"] if json["params"]
+		@etypes = json["etypes"] if json["etypes"]
+		@commands = json["commands"] if json["commands"]
 	end
 
 	def to_s
@@ -397,9 +399,9 @@ class RPG::System::TestBattler
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@actor_id, json["actorId"])
-		updateItemFromJson(@level, json["level"])
-		updateItemFromJson(@equips, json["equips"])
+		@actor_id = json["actorId"] if json["actorId"]
+		@level = json["level"] if json["level"]
+		@equips = json["equips"] if json["equips"]
 	end
 
 	def to_s

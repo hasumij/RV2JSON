@@ -8,10 +8,10 @@ class RPG::Event
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@id, json["id"])
-		updateItemFromJson(@name, json["name"])
-		updateItemFromJson(@x, json["x"])
-		updateItemFromJson(@y, json["y"])
+		@id = json["id"] if json["id"]
+		@name = json["name"] if json["name"]
+		@x = json["x"] if json["x"]
+		@y = json["y"] if json["y"]
 		listUpdateFromJson(@pages, json["pages"])
 	end
 
@@ -87,18 +87,18 @@ class RPG::Event::Page
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@condition, json["conditions"])
-		updateItemFromJson(@graphic, json["image"])
-		updateItemFromJson(@move_type, json["moveType"])
-		updateItemFromJson(@move_speed, json["moveSpeed"])
-		updateItemFromJson(@move_frequency, json["moveFrequency"])
-		updateItemFromJson(@move_route, json["moveRoute"])
-		updateItemFromJson(@walk_anime, json["walkAnime"])
-		updateItemFromJson(@step_anime, json["stepAnime"])
-		updateItemFromJson(@direction_fix, json["directionFix"])
-		updateItemFromJson(@through, json["through"])
-		updateItemFromJson(@priority_type, json["priorityType"])
-		updateItemFromJson(@trigger, json["trigger"])
+		@condition.updateFromJson(json["conditions"]) if json["conditions"]
+		@graphic.updateFromJson(json["image"]) if json["image"]
+		@move_type = json["moveType"] if json["moveType"]
+		@move_speed = json["moveSpeed"] if json["moveSpeed"]
+		@move_frequency = json["moveFrequency"] if json["moveFrequency"]
+		@move_route.updateFromJson(json["moveRoute"]) if json["moveRoute"]
+		@walk_anime = json["walkAnime"] if json["walkAnime"]
+		@step_anime = json["stepAnime"] if json["stepAnime"]
+		@direction_fix = json["directionFix"] if json["directionFix"]
+		@through = json["through"] if json["through"]
+		@priority_type = json["priorityType"] if json["priorityType"]
+		@trigger = json["trigger"] if json["trigger"]
 		listUpdateFromJson(@list, json["list"])
 	end
 
@@ -190,11 +190,11 @@ class RPG::Event::Page::Graphic
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@tile_id, json["tileId"])
-		updateItemFromJson(@character_name, json["characterName"])
-		updateItemFromJson(@character_index, json["characterIndex"])
-		updateItemFromJson(@direction, json["direction"])
-		updateItemFromJson(@pattern, json["pattern"])
+		@tile_id = json["tileId"] if json["tileId"]
+		@character_name = json["characterName"] if json["characterName"]
+		@character_index = json["characterIndex"] if json["characterIndex"]
+		@direction = json["direction"] if json["direction"]
+		@pattern = json["pattern"] if json["pattern"]
 	end
 
 	def ==(obj)
@@ -268,19 +268,19 @@ class RPG::Event::Page::Condition
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@switch1_valid, json["switch1Valid"])
-		updateItemFromJson(@switch2_valid, json["switch2Valid"])
-		updateItemFromJson(@variable_valid, json["variableValid"])
-		updateItemFromJson(@self_switch_valid, json["selfSwitchValid"])
-		updateItemFromJson(@item_valid, json["itemValid"])
-		updateItemFromJson(@actor_valid, json["actorValid"])
-		updateItemFromJson(@switch1_id, json["switch1Id"])
-		updateItemFromJson(@switch2_id, json["switch2Id"])
-		updateItemFromJson(@variable_id, json["variableId"])
-		updateItemFromJson(@variable_value, json["variableValue"])
-		updateItemFromJson(@self_switch_ch, json["selfSwitchCh"])
-		updateItemFromJson(@item_id, json["itemId"])
-		updateItemFromJson(@actor_id, json["actorId"])
+		@switch1_valid = json["switch1Valid"] if json["switch1Valid"]
+		@switch2_valid = json["switch2Valid"] if json["switch2Valid"]
+		@variable_valid = json["variableValid"] if json["variableValid"]
+		@self_switch_valid = json["selfSwitchValid"] if json["selfSwitchValid"]
+		@item_valid = json["itemValid"] if json["itemValid"]
+		@actor_valid = json["actorValid"] if json["actorValid"]
+		@switch1_id = json["switch1Id"] if json["switch1Id"]
+		@switch2_id = json["switch2Id"] if json["switch2Id"]
+		@variable_id = json["variableId"] if json["variableId"]
+		@variable_value = json["variableValue"] if json["variableValue"]
+		@self_switch_ch = json["selfSwitchCh"] if json["selfSwitchCh"]
+		@item_id = json["itemId"] if json["itemId"]
+		@actor_id = json["actorId"] if json["actorId"]
 	end
 
 

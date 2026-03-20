@@ -7,7 +7,7 @@ class RPG::MoveCommand
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@code, json["code"])
+		@code = json["code"] if json["code"]
 		updateParametersFromJson(@parameters, json["parameters"])
 	end
 

@@ -31,15 +31,15 @@ class RPG::UsableItem < RPG::BaseItem
 
 	def updateFromJson(json)
 		super(json)
-		updateItemFromJson(@scope, json["scope"])
-		updateItemFromJson(@occasion, json["occasion"])
-		updateItemFromJson(@speed, json["speed"])
-		updateItemFromJson(@success_rate, json["successRate"])
-		updateItemFromJson(@repeats, json["repeats"])
-		updateItemFromJson(@tp_gain, json["tpGain"])
-		updateItemFromJson(@hit_type, json["hitType"])
-		updateItemFromJson(@animation_id, json["animationId"])
-		updateItemFromJson(@damage, json["damage"])
+		@scope = json["scope"] if json["scope"]
+		@occasion = json["occasion"] if json["occasion"]
+		@speed = json["speed"] if json["speed"]
+		@success_rate = json["successRate"] if json["successRate"]
+		@repeats = json["repeats"] if json["repeats"]
+		@tp_gain = json["tpGain"] if json["tpGain"]
+		@hit_type = json["hitType"] if json["hitType"]
+		@animation_id = json["animationId"] if json["animationId"]
+		@damage.updateFromJson(json["damage"]) if json["damage"]
 		listUpdateFromJson(@effects, json["effects"])
 	end
 
@@ -163,10 +163,10 @@ class RPG::UsableItem::Effect
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@code, json["code"])
-		updateItemFromJson(@data_id, json["dataId"])
-		updateItemFromJson(@value1, json["value1"])
-		updateItemFromJson(@value2, json["value2"])
+		@code = json["code"] if json["code"]
+		@data_id = json["dataId"] if json["dataId"]
+		@value1 = json["value1"] if json["value1"]
+		@value2 = json["value2"] if json["value2"]
 	end
 
 	def dataId
@@ -260,11 +260,11 @@ class RPG::UsableItem::Damage
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@type, json["type"])
-		updateItemFromJson(@element_id, json["elementId"])
-		updateItemFromJson(@formula, json["formula"])
-		updateItemFromJson(@variance, json["variance"])
-		updateItemFromJson(@critical, json["critical"])
+		@type = json["type"] if json["type"]
+		@element_id = json["elementId"] if json["elementId"]
+		@formula = json["formula"] if json["formula"]
+		@variance = json["variance"] if json["variance"]
+		@critical = json["critical"] if json["critical"]
 	end
 
 	def elementId

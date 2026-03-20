@@ -16,8 +16,8 @@ class RPG::Armor < RPG::EquipItem
 
 	def updateFromJson(json)
 		super(json)
-		updateItemFromJson(@atype_id, json["atypeId"])
-		updateItemFromJson(@etype_id, json["etypeId"])
+		@atype_id = json["atypeId"] if json["atypeId"]
+		@etype_id = json["etypeId"] if json["etypeId"]
 	end
 
 	def getDiff(obj)

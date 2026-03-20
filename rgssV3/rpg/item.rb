@@ -18,9 +18,9 @@ class RPG::Item < RPG::UsableItem
 
 	def updateFromJson(json)
 		super(json)
-		updateItemFromJson(@itype_id, json["itypeId"])
-		updateItemFromJson(@price, json["price"])
-		updateItemFromJson(@consumable, json["consumable"])
+		@itype_id = json["itypeId"] if json["itypeId"]
+		@price = json["price"] if json["price"]
+		@consumable = json["consumable"] if json["consumable"]
 	end
 
 	def key_item?

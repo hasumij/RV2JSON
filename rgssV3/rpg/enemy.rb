@@ -17,13 +17,13 @@ class RPG::Enemy < RPG::BaseItem
 
 	def updateFromJson(json)
 		super(json)
-		updateItemFromJson(@battler_name, json["battlerName"])
-		updateItemFromJson(@battler_hue, json["battlerHue"])
+		@battler_name = json["battlerName"] if json["battlerName"]
+		@battler_hue = json["battlerHue"] if json["battlerHue"]
 
 		@params.map!.with_index { |p, idx| json["params"] && json["params"][idx] ? json["params"][idx] : p }
 
-		updateItemFromJson(@exp, json["exp"])
-		updateItemFromJson(@gold, json["gold"])
+		@exp = json["exp"] if json["exp"]
+		@gold = json["gold"] if json["gold"]
 
 		listUpdateFromJson(@drop_items, json["dropItems"])
 		listUpdateFromJson(@actions, json["actions"])
@@ -108,9 +108,9 @@ class RPG::Enemy::DropItem
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@kind, json["kind"])
-		updateItemFromJson(@data_id, json["dataId"])
-		updateItemFromJson(@denominator, json["denominator"])
+		@kind = json["kind"] if json["kind"]
+		@data_id = json["dataId"] if json["dataId"]
+		@denominator = json["denominator"] if json["denominator"]
 	end
 
 	def getDiff(obj, idx)
@@ -172,11 +172,11 @@ class RPG::Enemy::Action
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@skill_id, json["skillId"])
-		updateItemFromJson(@condition_type, json["conditionType"])
-		updateItemFromJson(@condition_param1, json["conditionParam1"])
-		updateItemFromJson(@condition_param2, json["conditionParam2"])
-		updateItemFromJson(@rating, json["rating"])
+		@skill_id = json["skillId"] if json["skillId"]
+		@condition_type = json["conditionType"] if json["conditionType"]
+		@condition_param1 = json["conditionParam1"] if json["conditionParam1"]
+		@condition_param2 = json["conditionParam2"] if json["conditionParam2"]
+		@rating = json["rating"] if json["rating"]
 	end
 
 	def skillId

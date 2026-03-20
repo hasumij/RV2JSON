@@ -20,12 +20,12 @@ class RPG::BaseItem
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@id, json["id"])
-		updateItemFromJson(@name, json["name"])
-		updateItemFromJson(@icon_index, json["iconIndex"])
-		updateItemFromJson(@description, json["description"])
+		@id = json["id"] if json["id"]
+		@name = json["name"] if json["name"]
+		@icon_index = json["iconIndex"] if json["iconIndex"]
+		@description = json["description"] if json["description"]
+		@note = json["note"] if json["note"]
 		# @features = json["traits"].map { |t| RPG::BaseItem::Feature.new(t) } if json["traits"]
-		updateItemFromJson(@note, json["note"])
 	end
 
 	def iconIndex
@@ -92,9 +92,9 @@ class RPG::BaseItem::Feature
 	end
 
 	def updateFromJson(json)
-		updateItemFromJson(@code, json["code"])
-		updateItemFromJson(@data_id, json["dataId"])
-		updateItemFromJson(@value, json["value"])
+		@code = json["code"] if json["code"]
+		@data_id = json["dataId"] if json["dataId"]
+		@value = json["value"] if json["value"]
 	end
 
 	def dataId
