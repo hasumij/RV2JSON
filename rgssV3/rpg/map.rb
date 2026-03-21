@@ -113,7 +113,7 @@ class RPG::Map
 			"specifyBattleback" => @specify_battleback,
 			"tilesetId" => @tileset_id,
 			"width" => @width,
-			"data" => @data,
+			# "data" => @data,
 			"events" => @events.values
 		}.to_json(*a)
 	end
