@@ -31,7 +31,7 @@ class RPG::Actor < RPG::BaseItem
 	def updateFromJson(json)
 		super(json)
 		@character_index = json["characterIndex"] if json["characterIndex"]
-		@character_name = json["characterName"] if json["characterName"]
+		@character_name = json["characterName"].encode(@character_name.encoding) if json["characterName"]
 		@class_id = json["classId"] if json["classId"]
 
 		@equips.map!.with_index do | eq, idx |
@@ -43,11 +43,11 @@ class RPG::Actor < RPG::BaseItem
 		end
 
 		@face_index = json["faceIndex"] if json["faceIndex"]
-		@face_name = json["faceName"] if json["faceName"]
+		@face_name = json["faceName"].encode(@face_name.encoding) if json["faceName"]
 		@initial_level = json["initialLevel"] if json["initialLevel"]
 		@max_level = json["maxLevel"] if json["maxLevel"]
-		@nickname = json["nickname"] if json["nickname"]
-		@description = json["profile"] if json["profile"]
+		@nickname = json["nickname"].encode(@nickname.encoding) if json["nickname"]
+		@description = json["profile"].encode(@description.encoding) if json["profile"]
 	end
 
 	def getDiff(obj)

@@ -19,7 +19,7 @@ class RPG::MapInfo
 	end
 
 	def updateFromJson(json)
-		@name = json["name"] if json["name"]
+		@name = json["name"].encode(@name.encoding) if json["name"]
 		@id = json["id"] if json["id"]
 		@parent_id = json["parentId"] if json["parentId"]
 		@order = json["order"] if json["order"]

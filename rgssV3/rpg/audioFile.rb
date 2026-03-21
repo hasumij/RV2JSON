@@ -6,7 +6,7 @@ class RPG::AudioFile
 	end
 
 	def updateFromJson(json)
-		@name = json["name"] if json["name"]
+		@name = json["name"].encode(@name.encoding) if json["name"]
 		@volume = json["volume"] if json["volume"]
 		@pitch = json["pitch"] if json["pitch"]
 	end

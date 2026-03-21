@@ -21,10 +21,10 @@ class RPG::BaseItem
 
 	def updateFromJson(json)
 		@id = json["id"] if json["id"]
-		@name = json["name"] if json["name"]
+		@name = json["name"].encode(@name.encoding) if json["name"]
 		@icon_index = json["iconIndex"] if json["iconIndex"]
-		@description = json["description"] if json["description"]
-		@note = json["note"] if json["note"]
+		@description = json["description"].encode(@description.encoding) if json["description"]
+		@note = json["note"].encode(@note.encoding) if json["note"]
 		# @features = json["traits"].map { |t| RPG::BaseItem::Feature.new(t) } if json["traits"]
 	end
 
@@ -79,7 +79,7 @@ end
 
 # TODO: Map out text for to_s
 class RPG::BaseItem::Feature
-	def initialize(code = 0, data_id = 0, value = 0)
+	def initialize(code = 0, data_id = 0, value = 0.0)
 		@code = code
 		@data_id = data_id
 		@value = value

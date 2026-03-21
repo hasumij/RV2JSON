@@ -148,7 +148,7 @@ end
 
 # TODO: Map out text for to_s
 class RPG::UsableItem::Effect
-	def initialize(code = 0, data_id = 0, value1 = 0, value2 = 0)
+	def initialize(code = 0, data_id = 0, value1 = 0, value2 = 0.0)
 		@code = code
 		@data_id = data_id
 		@value1 = value1
@@ -262,7 +262,7 @@ class RPG::UsableItem::Damage
 	def updateFromJson(json)
 		@type = json["type"] if json["type"]
 		@element_id = json["elementId"] if json["elementId"]
-		@formula = json["formula"] if json["formula"]
+		@formula = json["formula"].encode(@formula.encoding) if json["formula"]
 		@variance = json["variance"] if json["variance"]
 		@critical = json["critical"] if json["critical"]
 	end

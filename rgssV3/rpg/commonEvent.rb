@@ -9,7 +9,7 @@ class RPG::CommonEvent
 
 	def updateFromJson(json)
 		@id = json["id"] if json["id"]
-		@name = json["name"] if json["name"]
+		@name = json["name"].encode(@name.encoding) if json["name"]
 		@trigger = json["trigger"] if json["trigger"]
 		@switch_id = json["switchId"] if json["switchId"]
 		listUpdateFromJson(@list, json["list"])

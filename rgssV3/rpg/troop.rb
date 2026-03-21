@@ -8,7 +8,7 @@ class RPG::Troop
 
 	def updateFromJson(json)
 		@id = json["id"] if json["id"]
-		@name = json["name"] if json["name"]
+		@name = json["name"].encode(@name.encoding) if json["name"]
 		listUpdateFromJson(@members, json["members"])
 		listUpdateFromJson(@pages, json["pages"])
 	end

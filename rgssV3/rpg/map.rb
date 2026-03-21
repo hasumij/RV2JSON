@@ -29,27 +29,27 @@ class RPG::Map
 	end
 
 	def updateFromJson(json)
-		@display_name = json["displayName"] if json["displayName"]
+		@display_name = json["displayName"].encode(@display_name.encoding) if json["displayName"]
 		@tileset_id = json["tilesetId"] if json["tilesetId"]
 		@width = json["width"] if json["width"]
 		@height = json["height"] if json["height"]
 		@scroll_type = json["scrollType"] if json["scrollType"]
 		@specify_battleback = json["specifyBattleback"] if json["specifyBattleback"]
-		@battleback_floor_name = json["battleback1Name"] if json["battleback1Name"]
-		@battleback_wall_name = json["battleback2Name"] if json["battleback2Name"]
+		@battleback_floor_name = json["battleback1Name"].encode(@battleback_floor_name.encoding) if json["battleback1Name"]
+		@battleback_wall_name = json["battleback2Name"].encode(@battleback_wall_name.encoding) if json["battleback2Name"]
 		@autoplay_bgm = json["autoplayBgm"] if json["autoplayBgm"]
 		@bgm.updateFromJson(json["bgm"]) if json["bgm"]
 		@autoplay_bgs = json["autoplayBgs"] if json["autoplayBgs"]
 		@bgs.updateFromJson(json["bgs"]) if json["bgs"]
 		@disable_dashing = json["disableDashing"] if json["disableDashing"]
 		@encounter_step = json["encounterStep"] if json["encounterStep"]
-		@parallax_name = json["parallaxName"] if json["parallaxName"]
+		@parallax_name = json["parallaxName"].encode(@parallax_name.encoding) if json["parallaxName"]
 		@parallax_loop_x = json["parallaxLoopX"] if json["parallaxLoopX"]
 		@parallax_loop_y = json["parallaxLoopY"] if json["parallaxLoopY"]
 		@parallax_sx = json["parallaxSx"] if json["parallaxSx"]
 		@parallax_sy = json["parallaxSy"] if json["parallaxSy"]
 		@parallax_show = json["parallaxShow"] if json["parallaxShow"]
-		@note = json["note"] if json["note"]
+		@note = json["note"].encode(@note.encoding) if json["note"]
 		# @data = json["data"]
 
 		@events.each do |k, v|

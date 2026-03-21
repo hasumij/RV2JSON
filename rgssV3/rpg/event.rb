@@ -9,7 +9,7 @@ class RPG::Event
 
 	def updateFromJson(json)
 		@id = json["id"] if json["id"]
-		@name = json["name"] if json["name"]
+		@name = json["name"].encode(@name.encoding) if json["name"]
 		@x = json["x"] if json["x"]
 		@y = json["y"] if json["y"]
 		listUpdateFromJson(@pages, json["pages"])
@@ -191,7 +191,7 @@ class RPG::Event::Page::Graphic
 
 	def updateFromJson(json)
 		@tile_id = json["tileId"] if json["tileId"]
-		@character_name = json["characterName"] if json["characterName"]
+		@character_name = json["characterName"].encode(@character_name.encoding) if json["characterName"]
 		@character_index = json["characterIndex"] if json["characterIndex"]
 		@direction = json["direction"] if json["direction"]
 		@pattern = json["pattern"] if json["pattern"]
@@ -278,7 +278,7 @@ class RPG::Event::Page::Condition
 		@switch2_id = json["switch2Id"] if json["switch2Id"]
 		@variable_id = json["variableId"] if json["variableId"]
 		@variable_value = json["variableValue"] if json["variableValue"]
-		@self_switch_ch = json["selfSwitchCh"] if json["selfSwitchCh"]
+		@self_switch_ch = json["selfSwitchCh"].encode(@self_switch_ch.encoding) if json["selfSwitchCh"]
 		@item_id = json["itemId"] if json["itemId"]
 		@actor_id = json["actorId"] if json["actorId"]
 	end

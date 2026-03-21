@@ -44,10 +44,10 @@ class RPG::System
 	end
 
 	def updateFromJson(json)
-		@game_title = json["gameTitle"] if json["gameTitle"]
+		@game_title = json["gameTitle"].encode(@game_title.encoding) if json["gameTitle"]
 		@version_id = json["versionId"] if json["versionId"]
 		@party_members = json["partyMembers"] if json["partyMembers"]
-		@currency_unit = json["currencyUnit"] if json["currencyUnit"]
+		@currency_unit = json["currencyUnit"].encode(@currency_unit.encoding) if json["currencyUnit"]
 		@elements = json["elements"] if json["elements"]
 		@skill_types = json["skillTypes"] if json["skillTypes"]
 		@weapon_types = json["weaponTypes"] if json["weaponTypes"]
@@ -57,8 +57,8 @@ class RPG::System
 		@boat.updateFromJson(json["boat"]) if json["boat"]
 		@ship.updateFromJson(json["ship"]) if json["ship"]
 		@airship.updateFromJson(json["airship"]) if json["airship"]
-		@title1_name = json["title1Name"] if json["title1Name"]
-		@title2_name = json["title2Name"] if json["title2Name"]
+		@title1_name = json["title1Name"].encode(@title1_name.encoding) if json["title1Name"]
+		@title2_name = json["title2Name"].encode(@title2_name.encoding) if json["title2Name"]
 		@opt_draw_title = json["optDrawTitle"] if json["optDrawTitle"]
 		@opt_use_midi = json["optUseMidi"] if json["optUseMidi"]
 		@opt_transparent = json["optTransparent"] if json["optTransparent"]
@@ -79,9 +79,9 @@ class RPG::System
 		@start_x = json["startX"] if json["startX"]
 		@start_y = json["startY"] if json["startY"]
 		@terms.updateFromJson(json["terms"]) if json["terms"]
-		@battleback1_name = json["battleback1Name"] if json["battleback1Name"]
-		@battleback2_name = json["battleback2Name"] if json["battleback2Name"]
-		@battler_name = json["battlerName"] if json["battlerName"]
+		@battleback1_name = json["battleback1Name"].encode(@battleback1_name.encoding) if json["battleback1Name"]
+		@battleback2_name = json["battleback2Name"].encode(@battleback2_name.encoding) if json["battleback2Name"]
+		@battler_name = json["battlerName"].encode(@battler_name.encoding) if json["battlerName"]
 		@battler_hue = json["battlerHue"] if json["battlerHue"]
 		@edit_map_id = json["editMapId"] if json["editMapId"]
 	end
@@ -270,7 +270,7 @@ class RPG::System::Vehicle
 	end
 
 	def updateFromJson(json)
-		@character_name = json["characterName"] if json["characterName"]
+		@character_name = json["characterName"].encode(@character_name.encoding) if json["characterName"]
 		@character_index = json["characterIndex"] if json["characterIndex"]
 		@bgm.updateFromJson(json["bgm"]) if json["bgm"]
 		@start_map_id = json["startMapId"] if json["startMapId"]
@@ -334,14 +334,14 @@ class RPG::System::Terms
 		s << "TP (Abbreviated): #{@basic[7]}\n"
 
 		s << "\nParameters:\n"
-		s << "Maximum HP: #{params[0]}\n"
-		s << "Maximum MP: #{params[1]}\n"
-		s << "Attack: #{params[2]}\n"
-		s << "Defense: #{params[3]}\n"
-		s << "Magic: #{params[4]}\n"
-		s << "Magic Defense: #{params[5]}\n"
-		s << "Agility: #{params[6]}\n"
-		s << "Luck: #{params[7]}\n"
+		s << "Maximum HP: #{@params[0]}\n"
+		s << "Maximum MP: #{@params[1]}\n"
+		s << "Attack: #{@params[2]}\n"
+		s << "Defense: #{@params[3]}\n"
+		s << "Magic: #{@params[4]}\n"
+		s << "Magic Defense: #{@params[5]}\n"
+		s << "Agility: #{@params[6]}\n"
+		s << "Luck: #{@params[7]}\n"
 
 		s << "\nEquipment Types:\n"
 		s << "Weapon: #{@etypes[0]}\n"

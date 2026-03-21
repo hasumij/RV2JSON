@@ -30,8 +30,8 @@ class RPG::Skill < RPG::UsableItem
 		@stype_id = json["stypeId"] if json["stypeId"]
 		@mp_cost = json["mpCost"] if json["mpCost"]
 		@tp_cost = json["tpCost"] if json["tpCost"]
-		@message1 = json["message1"] if json["message1"]
-		@message2 = json["message2"] if json["message2"]
+		@message1 = json["message1"].encode(@message1.encoding) if json["message1"]
+		@message2 = json["message2"].encode(@message2.encoding) if json["message2"]
 		@required_wtype_id1 = json["requiredWtypeId1"] if json["requiredWtypeId1"]
 		@required_wtype_id2 = json["requiredWtypeId2"] if json["requiredWtypeId2"]
 	end

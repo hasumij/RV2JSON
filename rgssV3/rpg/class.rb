@@ -100,7 +100,7 @@ class RPG::Class::Learning
 	def updateFromJson(json)
 		@level = json["level"] if json["level"]
 		@skill_id = json["skillId"] if json["skillId"]
-		@note = json["note"] if json["note"]
+		@note = json["note"].encode(@note.encoding) if json["note"]
 	end
 
 	def getDiff(obj, idx)

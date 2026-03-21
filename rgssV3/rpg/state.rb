@@ -52,10 +52,10 @@ class RPG::State < RPG::BaseItem
 		@chance_by_damage = json["chanceByDamage"] if json["chanceByDamage"]
 		@remove_by_walking = json["removeByWalking"] if json["removeByWalking"]
 		@steps_to_remove = json["stepsToRemove"] if json["stepsToRemove"]
-		@message1 = json["message1"] if json["message1"]
-		@message2 = json["message2"] if json["message2"]
-		@message3 = json["message3"] if json["message3"]
-		@message4 = json["message4"] if json["message4"]
+		@message1 = json["message1"].encode(@message1.encoding) if json["message1"]
+		@message2 = json["message2"].encode(@message2.encoding) if json["message2"]
+		@message3 = json["message3"].encode(@message3.encoding) if json["message3"]
+		@message4 = json["message4"].encode(@message4.encoding) if json["message4"]
 	end
 
 	def to_s

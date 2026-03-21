@@ -17,7 +17,7 @@ class RPG::Enemy < RPG::BaseItem
 
 	def updateFromJson(json)
 		super(json)
-		@battler_name = json["battlerName"] if json["battlerName"]
+		@battler_name = json["battlerName"].encode(@battler_name.encoding) if json["battlerName"]
 		@battler_hue = json["battlerHue"] if json["battlerHue"]
 
 		@params.map!.with_index { |p, idx| json["params"] && json["params"][idx] ? json["params"][idx] : p }
