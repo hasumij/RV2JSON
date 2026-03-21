@@ -113,7 +113,14 @@ class RPG::Troop::Page
 	def updateFromJson(json)
 		@condition.updateFromJson(json["conditions"]) if json["conditions"]
 		@span = json["span"] if json["span"]
-		listUpdateFromJson(@list, json["list"])
+		# listUpdateFromJson(@list, json["list"])
+		
+		@list = []
+		json["list"].each do |e|
+			ev = RPG::EventCommand.new
+			ev.makeFromJson(e)
+			@list.push(ev)
+		end
 	end
 
 	def to_s

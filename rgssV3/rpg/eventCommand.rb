@@ -4,14 +4,17 @@ require_relative 'utils'
 $moveCommands = nil
 $currentMCIndex = nil
 
+$choices = []
+
 class RPG::EventCommand
 	def initialize(code = 0, indent = 0, parameters = [])
-		@code = code
 		@indent = indent
+		@code = code
 		@parameters = parameters
 	end
 
-	def updateFromJson(json)
+	# def updateFromJson(json)
+	def makeFromJson(json)
 		@code = json["code"] if json["code"]
 		@indent = json["indent"] if json["indent"]
 		# updateParametersFromJson(@parameters, json["parameters"])
@@ -19,6 +22,9 @@ class RPG::EventCommand
 			@parameters.clear
 			json["parameters"].each_with_index do |p, idx|
 				case @code
+				when 102 # Show Choices
+					$choices.push(p) if p.is_a?(Array)
+					@parameters.push(p)
 				when 132 # Change Battle BGM
 					if p.is_a?(Hash)
 						@parameters.push(RPG::BGM.new(p["name"], p["pitch"], p["volume"]))
@@ -88,6 +94,14 @@ class RPG::EventCommand
 					else
 						@parameters.push(p)
 					end
+				when 402 # When [**]
+					r = p.dup
+					c = $choices.last
+					r = c[c.index(r)] if c && c.include?(r)
+					@parameters.push(r)
+				when 404 # Branch End
+					$choices.pop
+					@parameters.push(p)
 				when 505 # Move Route - Move Command
 					if p.is_a?(Hash) && p["code"]
 						@parameters.push($moveCommands.list[$currentMCIndex])

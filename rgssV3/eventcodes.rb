@@ -104,6 +104,7 @@ EVENT_CODES = {
 "401" => "Show Text - Text Data",
 "402" => "When [**]",
 "403" => "When Cancel",
+"404" => "Branch End",
 "405" => "Scrolling Text",
 "408" => "Choice Item",
 "411" => "Else",

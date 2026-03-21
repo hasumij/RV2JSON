@@ -99,7 +99,14 @@ class RPG::Event::Page
 		@through = json["through"] if json["through"]
 		@priority_type = json["priorityType"] if json["priorityType"]
 		@trigger = json["trigger"] if json["trigger"]
-		listUpdateFromJson(@list, json["list"])
+		# listUpdateFromJson(@list, json["list"])
+		@list = []
+		json["list"].each do |e|
+			ev = RPG::EventCommand.new
+			ev.makeFromJson(e)
+			@list.push(ev)
+		end
+
 	end
 
 	def ==(obj)

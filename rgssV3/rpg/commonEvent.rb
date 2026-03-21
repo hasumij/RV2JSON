@@ -12,7 +12,14 @@ class RPG::CommonEvent
 		@name = json["name"].encode(@name.encoding) if json["name"]
 		@trigger = json["trigger"] if json["trigger"]
 		@switch_id = json["switchId"] if json["switchId"]
-		listUpdateFromJson(@list, json["list"])
+		# listUpdateFromJson(@list, json["list"])
+		
+		@list = []
+		json["list"].each do |e|
+			ev = RPG::EventCommand.new
+			ev.makeFromJson(e)
+			@list.push(ev)
+		end
 	end
 
 	def getDiff(obj)
