@@ -59,6 +59,8 @@ end
 class Window_Selectable
 end
 
+$CURRENT_FILE = nil
+
 ENGINES = {
 :vxace => ".rvdata2",
 :vx    => ".rvdata",
@@ -118,6 +120,7 @@ end
 
 ### From the RPG Maker documentation
 def load_data(filename)
+	$CURRENT_FILE = filename
 	unless File.exist?(filename)
 		puts "Error: File: #{filename} does not exist."
 		return nil
@@ -142,6 +145,7 @@ end
 
 ### From the RPG Maker documentation
 def save_data(obj, filename, force_json = false)
+	$CURRENT_FILE = filename
 	if $ENGINE == :vxace || $ENGINE == :vx
 		if force_json
 			File.open("#{filename}", "w:UTF-8") { |f| f.write(JSON.pretty_generate obj) }

@@ -144,7 +144,7 @@ def validateRecreation(dataDir, dataFiles)
 	end
 end
 
-def initDataFiles(dataDir, check = true)
+def initDataFiles(dataDir, verbose = true, check = true)
 	checkDataDirExists(dataDir)
 
 	dataFiles = ["CommonEvents", "System", "MapInfos", "Actors", "Animations", "Armors", "Classes", "Enemies", "Items", "Skills", "States", "Tilesets", "Troops", "Weapons"]
@@ -153,7 +153,8 @@ def initDataFiles(dataDir, check = true)
 	$RPG_OBJECTS = nil
 
 	validateRecreation(dataDir, dataFiles) if check
-	$RPG_OBJECTS = dataFiles.map{ |df| [df, loadFile("#{dataDir}/#{df}")] }.to_h
+	$RPG_OBJECTS = dataFiles.map{ |df| [df, loadFile("#{dataDir}/#{df}", verbose)] }.to_h
+	$CURRENT_FILE = nil
 end
 
 def saveDataFiles(dataDir)

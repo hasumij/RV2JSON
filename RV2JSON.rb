@@ -29,20 +29,21 @@ def createBackup(filePath, backupDir, verbose = false)
 	end
 end
 
-def saveDataAsJson(fileName, jsonDir, data)
+def saveDataAsJson(fileName, jsonDir, data, verbose = false)
 	Dir.mkdir(jsonDir) unless Dir.exist?(jsonDir)
 	outPath = "#{jsonDir}/#{fileName}.json"
-	puts "Saving JSON version of #{fileName} ..."
+	puts "Saving JSON version of #{fileName} ..." if verbose
 	save_data(data, outPath, true)
 end
 
-def updateDataFromJson(fileName, jsonDir, outDir, data)
+def updateDataFromJson(fileName, jsonDir, outDir, data, verbose = false)
 	jsonPath = "#{jsonDir}/#{fileName}.json"
 	return unless File.exist?(jsonPath)
 
 	Dir.mkdir(outDir) unless Dir.exist?(outDir)
 
-	puts "Updating #{fileName} from JSON version ..."
+	puts "Updating #{fileName} from JSON version ..." if verbose
+	$CURRENT_FILE = jsonPath
 	jsonData = JSON.parse(File.read(jsonPath))
 	if data.is_a?(Array)
 		data.each_with_index do |d, i|
@@ -116,6 +117,7 @@ def updateScripts(scriptFile, dumpDir, outDir, skipBackup = false)
 
 	# Load the Scripts file
 	temp = load_data(scriptFile)
+	$CURRENT_FILE = nil
 
 	if temp == nil
 		puts "ERROR: Could not load scripts from #{scriptFile}"
@@ -145,7 +147,9 @@ def updateScripts(scriptFile, dumpDir, outDir, skipBackup = false)
 end
 
 def dumpFiles(dataDir, outDir)
+	$CURRENT_FILE = nil
 	$RPG_OBJECTS.each {|n, o| saveDataAsJson(n, outDir, o) }
+	$CURRENT_FILE = nil
 
 	# Dump scripts
 	scriptDumpDir = "#{outDir}/scripts"
@@ -153,14 +157,14 @@ def dumpFiles(dataDir, outDir)
 	dumpScripts(scriptFile, scriptDumpDir)
 end
 
-def updateFiles(dataDir, jsonDir, outDir, skipBackup = false)
+def updateFiles(dataDir, jsonDir, outDir, skipBackup = false, verbose = false)
 	backupDir = "#{outDir}/backups"
 
 	# Update data from JSON and save to test directory
 	$RPG_OBJECTS.each do |n, o|
 		# When performing an in-place update (dataDir == outDir), create a backup of the original file before overwriting it
 		createBackup("#{dataDir}/#{n}.rvdata2", backupDir) if dataDir == outDir && !skipBackup
-		updateDataFromJson(n, jsonDir, outDir, o)
+		updateDataFromJson(n, jsonDir, outDir, o, verbose)
 	end
 
 	# Update scripts from dumped versions and save to test directory
@@ -190,6 +194,7 @@ EOF
 	createFlag = false
 	updateFlag = false
 	skipBackup = false
+	verbose = false
 
 	opts.separator "Actions:"
 	opts.on('-c', '--create', 'Create JSON dumps (calls dumpFiles)') { createFlag = true }
@@ -202,6 +207,7 @@ EOF
 	opts.separator ""
 	opts.separator "Other options:"
 	opts.on('-s', '--skip-backup', 'When updating in-place (data dir == output dir),', 'skip creating a backup of the original files.', 'Use with caution.') { skipBackup = true }
+	opts.on('-v', '--verbose', 'Print additional information during execution.') { verbose = true }
 	opts.on('-h', '--help', 'Show this help') { puts opts; exit }
 	opts.parse!(ARGV)
 
@@ -227,22 +233,23 @@ EOF
 		puts "Using default output directory (data dir): #{outputDir}"
 	end
 
-	initDataFiles(dataDir)
+	initDataFiles(dataDir, verbose)
 
 	# Execute requested actions
 	if createFlag
-		puts "Running create (dumpFiles) -> output: #{outputDir}"
+		puts "Running create (dumpFiles) -> json: #{jsonDir}"
 		dumpFiles(dataDir, jsonDir)
 	end
 
 	if updateFlag
 		puts "Running update (updateFiles) -> json: #{jsonDir}, output: #{outputDir}"
-		updateFiles(dataDir, jsonDir, outputDir, skipBackup)
+		updateFiles(dataDir, jsonDir, outputDir, skipBackup, verbose)
 	end
 rescue => e
 	puts "ERROR APPLICATION CRASHED WITH:"
 	puts e.inspect
 	puts e.backtrace.join("\n")
+	puts "Crash occurred while processing file: #{$CURRENT_FILE}" if $CURRENT_FILE
 	exit 1
 end
 
