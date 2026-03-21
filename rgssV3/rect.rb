@@ -51,6 +51,19 @@ class Rect
     "(#{x}, #{y}, #{width}, #{height})"
   end
 
+  def to_json(*a)
+	return {
+		"x" => @x,
+		"y" => @y,
+		"width" => @width,
+		"height" => @height
+	}.to_json(*a)
+  end
+
+  def updateFromJson(json)
+	# Do not update this
+  end
+
   # Sets all components to 0.
   def empty
     set(0, 0, 0, 0)

@@ -75,6 +75,19 @@ class Tone
     "(#{red}, #{green}, #{blue}, #{gray})"
   end
 
+  def to_json(*a)
+	return {
+		"red" => @red,
+		"green" => @green,
+		"blue" => @blue,
+		"gray" => @gray
+	}.to_json(*a)
+  end
+
+  def updateFromJson(json)
+	# Do not update this
+  end
+
   def blend(tone) # :nodoc:
     self.clone.blend!(tone)
   end

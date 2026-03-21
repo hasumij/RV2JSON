@@ -56,6 +56,19 @@ class Color
     "(#{@red}, #{@blue}, #{@green}, #{@alpha})"
   end
 
+  def to_json(*a)
+	return {
+		"red" => @red,
+		"blue" => @blue,
+		"green" => @green,
+		"alpha" => @alpha
+	}.to_json(*a)
+  end
+
+  def updateFromJson(json)
+	# Do not update this
+  end
+
   def _dump(depth = 0) # :nodoc:
     [@red, @green, @blue, @alpha].pack('D*')
   end
