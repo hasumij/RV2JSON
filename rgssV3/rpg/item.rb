@@ -6,7 +6,7 @@ class RPG::Item < RPG::UsableItem
 		@scope = 7
 		@itype_id = 1
 		@price = 0
-		@consumable = true
+		@consumable = false
 	end
 
 	def initialize(json)

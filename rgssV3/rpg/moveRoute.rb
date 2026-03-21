@@ -2,10 +2,18 @@ require_relative 'utils'
 
 class RPG::MoveRoute
 	def initialize
-		@repeat = true
+		@repeat = false
 		@skippable = false
 		@wait = false
 		@list = [RPG::MoveCommand.new]
+	end
+
+	def initFromJson(json)
+		@repeat = json["repeat"] if json["repeat"]
+		@skippable = json["skippable"] if json["skippable"]
+		@wait = json["wait"] if json["wait"]
+		@list = json["list"].map { |e| RPG::MoveCommand.new.initFromJson(e) } if json["list"]
+		return self
 	end
 
 	def updateFromJson(json)

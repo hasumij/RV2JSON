@@ -1,5 +1,5 @@
 class RPG::AudioFile
-	def initialize(name = '', volume = 100, pitch = 100)
+	def initialize(name = '', pitch = 100, volume = 100)
 		@name = name
 		@volume = volume
 		@pitch = pitch
@@ -7,8 +7,8 @@ class RPG::AudioFile
 
 	def updateFromJson(json)
 		@name = json["name"].encode(@name.encoding) if json["name"]
-		@volume = json["volume"] if json["volume"]
 		@pitch = json["pitch"] if json["pitch"]
+		@volume = json["volume"] if json["volume"]
 	end
 
 	def ==(obj)
@@ -22,8 +22,8 @@ class RPG::AudioFile
 	def to_s
 		s = ""
 		s << "Name: #{@name}\n"
-		s << "Volume: #{@volume}\n"
 		s << "Pitch: #{@pitch}\n"
+		s << "Volume: #{@volume}\n"
 		return s
 	end
 
@@ -37,11 +37,17 @@ class RPG::AudioFile
 	end
 
 	attr_accessor :name
-	attr_accessor :volume
 	attr_accessor :pitch
+	attr_accessor :volume
 end
 
 class RPG::SE < RPG::AudioFile
+	def initialize(name = '', pitch = 100, volume = 100)
+		@name = name
+		@pitch = pitch
+		@volume = volume
+	end
+
   def play
     unless @name.empty?
       Audio.se_play('Audio/SE/' + @name, @volume, @pitch)
@@ -54,7 +60,7 @@ class RPG::SE < RPG::AudioFile
 end
 
 class RPG::BGM < RPG::AudioFile
-  @@last = RPG::BGM.new
+	@@last = RPG::BGM.new
   def play(pos = 0)
     if @name.empty?
       Audio.bgm_stop

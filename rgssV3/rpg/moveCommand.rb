@@ -6,6 +6,18 @@ class RPG::MoveCommand
 		@parameters = parameters
 	end
 
+	def initFromJson(json)
+		@code = json["code"] if json["code"]
+		@parameters.clear
+		if @code == 44 && json["parameters"]
+			p = json["parameters"][0]
+			@parameters.push(RPG::SE.new(p["name"], p["pitch"], p["volume"]))
+		else
+			@parameters = json["parameters"] if json["parameters"]
+		end
+		return self
+	end
+
 	def updateFromJson(json)
 		@code = json["code"] if json["code"]
 		updateParametersFromJson(@parameters, json["parameters"])

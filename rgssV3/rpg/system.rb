@@ -2,7 +2,7 @@ class RPG::System
 	def initialize
 		@game_title = ''
 		@version_id = 0
-		@japanese = true
+		@japanese = false
 		@party_members = [1]
 		@currency_unit = ''
 		@elements = [nil, '']
@@ -16,13 +16,13 @@ class RPG::System
 		@airship = RPG::System::Vehicle.new
 		@title1_name = ''
 		@title2_name = ''
-		@opt_draw_title = true
+		@opt_draw_title = false
 		@opt_use_midi = false
 		@opt_transparent = false
-		@opt_followers = true
+		@opt_followers = false
 		@opt_slip_death = false
 		@opt_floor_death = false
-		@opt_display_tp = true
+		@opt_display_tp = false
 		@opt_extra_exp = false
 		@window_tone = Tone.new(0,0,0)
 		@title_bgm = RPG::BGM.new

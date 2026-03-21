@@ -61,7 +61,7 @@ class RPG::Event::Page
 		@move_speed = 3
 		@move_frequency = 3
 		@move_route = RPG::MoveRoute.new
-		@walk_anime = true
+		@walk_anime = false
 		@step_anime = false
 		@direction_fix = false
 		@through = false

@@ -659,14 +659,18 @@ end
 
 def updateParametersFromJson(params, json)
 	params.map!.with_index do | p, idx |
+		r = p
 		# Check if p has a custom updateFromJson method, otherwise just update the value
 		if p.respond_to?(:updateFromJson) && json[idx]
 			p.updateFromJson(json[idx])
-			p
 		elsif json[idx]
-			json[idx]
-		else
-			p
+			if p.is_a?(String)
+				r = json[idx].encode(p.encoding)
+			else
+				r = json[idx]
+			end
 		end
+
+		r
 	end
 end

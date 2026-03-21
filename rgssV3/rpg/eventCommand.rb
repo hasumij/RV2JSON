@@ -1,5 +1,9 @@
 require_relative 'utils'
 
+# Static variable for the current set of MoveCommands -- I suck at ruby and while ugly, this works ...
+$moveCommands = nil
+$currentMCIndex = nil
+
 class RPG::EventCommand
 	def initialize(code = 0, indent = 0, parameters = [])
 		@code = code
@@ -10,7 +14,92 @@ class RPG::EventCommand
 	def updateFromJson(json)
 		@code = json["code"] if json["code"]
 		@indent = json["indent"] if json["indent"]
-		updateParametersFromJson(@parameters, json["parameters"])
+		# updateParametersFromJson(@parameters, json["parameters"])
+		if json["parameters"]
+			@parameters.clear
+			json["parameters"].each_with_index do |p, idx|
+				case @code
+				when 132 # Change Battle BGM
+					if p.is_a?(Hash)
+						@parameters.push(RPG::BGM.new(p["name"], p["pitch"], p["volume"]))
+					else
+						@parameters.push(p)
+					end
+				when 133 # Change Battle End ME
+					if p.is_a?(Hash)
+						@parameters.push(RPG::ME.new(p["name"], p["pitch"], p["volume"]))
+					else
+						@parameters.push(p)
+					end
+				when 138 # Change Window Color
+					if p.is_a?(Hash)
+						@parameters.push(Tone.new(p["red"], p["green"], p["blue"], p["gray"]))
+					else
+						@parameters.push(p)
+					end
+				when 205 # Set Move Route
+					if p.is_a?(Hash) && p["list"]
+						$moveCommands = RPG::MoveRoute.new
+						$currentMCIndex = 0
+						$moveCommands.initFromJson(p)
+						@parameters.push($moveCommands)
+					else
+						@parameters.push(p)
+					end
+				when 223 # Tint Screen
+					if p.is_a?(Hash)
+						@parameters.push(Tone.new(p["red"], p["green"], p["blue"], p["gray"]))
+					else
+						@parameters.push(p)
+					end
+				when 224 # Screen Flash
+					if p.is_a?(Hash)
+						@parameters.push(Color.new(p["red"], p["green"], p["blue"], p["alpha"]))
+					else
+						@parameters.push(p)
+					end
+				when 234 # Tint Picture
+					if p.is_a?(Hash)
+						@parameters.push(Tone.new(p["red"], p["green"], p["blue"], p["gray"]))
+					else
+						@parameters.push(p)
+					end
+				when 241 # Play BGM
+					if p.is_a?(Hash)
+						@parameters.push(RPG::BGM.new(p["name"], p["pitch"], p["volume"]))
+					else
+						@parameters.push(p)
+					end
+				when 245 # Play BGS
+					if p.is_a?(Hash)
+						@parameters.push(RPG::BGS.new(p["name"], p["pitch"], p["volume"]))
+					else
+						@parameters.push(p)
+					end
+				when 249 # Play ME
+					if p.is_a?(Hash)
+						@parameters.push(RPG::ME.new(p["name"], p["pitch"], p["volume"]))
+					else
+						@parameters.push(p)
+					end
+				when 250 # Play SE
+					if p.is_a?(Hash)
+						@parameters.push(RPG::SE.new(p["name"], p["pitch"], p["volume"]))
+					else
+						@parameters.push(p)
+					end
+				when 505 # Move Route - Move Command
+					if p.is_a?(Hash) && p["code"]
+						@parameters.push($moveCommands.list[$currentMCIndex])
+						$currentMCIndex += 1
+					else
+						@parameters.push(p)
+					end
+				else
+					@parameters.push(p)
+				end
+			end
+		end
 	end
 
 	def ==(obj)
@@ -20,6 +109,8 @@ class RPG::EventCommand
 		return false unless @parameters == obj.parameters
 		return true
 	end
+
+
 
 	def to_s
 		case @code

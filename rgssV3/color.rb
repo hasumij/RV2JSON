@@ -59,8 +59,8 @@ class Color
   def to_json(*a)
 	return {
 		"red" => @red,
-		"blue" => @blue,
 		"green" => @green,
+		"blue" => @blue,
 		"alpha" => @alpha
 	}.to_json(*a)
   end
