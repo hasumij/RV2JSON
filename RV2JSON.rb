@@ -1,19 +1,33 @@
 $APPLICATION_NAME = "RPGMaker VX Ace JSON Converter - RV2JSON"
-$VERSION = "1.0.0"
+$VERSION = "1.1.0"
 
 require_relative 'rgssV3/rpg'
 require_relative 'miscV3'
+
 require 'optparse'
 require 'zlib'
+require 'fileutils'
 
 # TODOs:
-# - Create backups of the original files before updating
+# - Improve the printing
 
 # Map containing the default names of the folders
 DEFAULT_FOLDERS = {
 	data: "data",
 	json: "ace_json"
 }
+
+def createBackup(filePath, backupDir, verbose = false)
+	backupPath = "#{backupDir}/#{File.basename(filePath)}"
+	Dir.mkdir(backupDir) unless Dir.exist?(backupDir)
+
+	if File.exist?(backupPath)
+		puts "Backup already exists for #{filePath}, skipping backup creation." if verbose
+	else
+		FileUtils.cp(filePath, backupPath)
+		puts "Created backup for #{filePath} in #{backupPath}"
+	end
+end
 
 def saveDataAsJson(fileName, jsonDir, data)
 	Dir.mkdir(jsonDir) unless Dir.exist?(jsonDir)
@@ -94,7 +108,7 @@ def dumpScripts(scriptFile, outDir)
 	puts "Dumping of #{cnt} scripts done"
 end
 
-def updateScripts(scriptFile, dumpDir, outDir)
+def updateScripts(scriptFile, dumpDir, outDir, skipBackup = false)
 	if not Dir.exist?(dumpDir)
 		puts "WARNING: Unable to update scripts. Directory #{dumpDir} does not exist."
 		return
@@ -107,6 +121,8 @@ def updateScripts(scriptFile, dumpDir, outDir)
 		puts "ERROR: Could not load scripts from #{scriptFile}"
 		return
 	end
+
+	createBackup(scriptFile, "#{outDir}/backups") if outDir == File.dirname(scriptFile) && !skipBackup
 
 	puts "Start updating scripts..."
 
@@ -137,14 +153,20 @@ def dumpFiles(dataDir, outDir)
 	dumpScripts(scriptFile, scriptDumpDir)
 end
 
-def updateFiles(dataDir, jsonDir, outDir)
+def updateFiles(dataDir, jsonDir, outDir, skipBackup = false)
+	backupDir = "#{outDir}/backups"
+
 	# Update data from JSON and save to test directory
-	$RPG_OBJECTS.each {|n, o| updateDataFromJson(n, jsonDir, outDir, o) }
+	$RPG_OBJECTS.each do |n, o|
+		# When performing an in-place update (dataDir == outDir), create a backup of the original file before overwriting it
+		createBackup("#{dataDir}/#{n}.rvdata2", backupDir) if dataDir == outDir && !skipBackup
+		updateDataFromJson(n, jsonDir, outDir, o)
+	end
 
 	# Update scripts from dumped versions and save to test directory
 	scriptDumpDir = "#{jsonDir}/scripts"
 	scriptFile = "#{dataDir}/Scripts.rvdata2"
-	updateScripts(scriptFile, scriptDumpDir, outDir)
+	updateScripts(scriptFile, scriptDumpDir, outDir, skipBackup)
 end
 begin
 	opts = OptionParser.new
@@ -167,6 +189,8 @@ EOF
 	outputDir = nil
 	createFlag = false
 	updateFlag = false
+	skipBackup = false
+
 	opts.separator "Actions:"
 	opts.on('-c', '--create', 'Create JSON dumps (calls dumpFiles)') { createFlag = true }
 	opts.on('-u', '--update', 'Update data from JSON (calls updateFiles)') { updateFlag = true }
@@ -177,6 +201,7 @@ EOF
 	opts.on('-oDIR', '--out-dir DIR', 'Path to output directory.', 'Used to store the updated rvdata2 files.', 'If not specified, the data directory (-d, --data-dir) will be used.') { |d| outputDir = d }
 	opts.separator ""
 	opts.separator "Other options:"
+	opts.on('-s', '--skip-backup', 'When updating in-place (data dir == output dir),', 'skip creating a backup of the original files.', 'Use with caution.') { skipBackup = true }
 	opts.on('-h', '--help', 'Show this help') { puts opts; exit }
 	opts.parse!(ARGV)
 
@@ -212,7 +237,7 @@ EOF
 
 	if updateFlag
 		puts "Running update (updateFiles) -> json: #{jsonDir}, output: #{outputDir}"
-		updateFiles(dataDir, jsonDir, outputDir)
+		updateFiles(dataDir, jsonDir, outputDir, skipBackup)
 	end
 rescue => e
 	puts "ERROR APPLICATION CRASHED WITH:"
