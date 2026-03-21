@@ -5,7 +5,8 @@ It can dump game data and scripts to human-readable JSON and Ruby files, and upd
 
 # Requirements
 - Ruby (3.4+ recommended)
-- Standard libraries: `json`, `zlib`, `fileutils` (all included with MRI Ruby)
+- `ocran` to create the executable (optional)
+  - Install with `gem install ocran`
 
 # Features
 - **Dump data to JSON:** Convert core game data (actors, items, maps, etc.) into JSON files.
@@ -17,6 +18,9 @@ It can dump game data and scripts to human-readable JSON and Ruby files, and upd
 # Default Directories
 - **Data folder:** data
 - **JSON folder:** ace_json
+
+# Build Executable
+To create a standalone executable, install `ocran` and execute `build.bat`, this will create `RV2JSON.exe` in the folder `bin`.
 
 # Usage
 Run the converter script directly with Ruby:
