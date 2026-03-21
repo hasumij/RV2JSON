@@ -58,6 +58,8 @@ build-iPhoneSimulator/
 # Custom stuff
 _Data/
 Data/
+Data_test/
+j2/
 Data - Copy/
 PatchedData/
 logs/
