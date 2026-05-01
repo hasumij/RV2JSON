@@ -70,6 +70,12 @@ class RPG::EventCommand
 					else
 						@parameters.push(p)
 					end
+				when 236 # Set Weather
+					if idx == 0
+						@parameters.push(p.to_sym)
+					else
+						@parameters.push(p)
+					end
 				when 241 # Play BGM
 					if p.is_a?(Hash)
 						@parameters.push(RPG::BGM.new(p["name"], p["pitch"], p["volume"]))

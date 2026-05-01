@@ -1,5 +1,5 @@
 $APPLICATION_NAME = "RPGMaker VX Ace JSON Converter - RV2JSON"
-$VERSION = "1.2.0"
+$VERSION = "1.2.1"
 
 require_relative 'rgssV3/rpg'
 require_relative 'miscV3'
